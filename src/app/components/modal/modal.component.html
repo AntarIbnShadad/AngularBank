@@ -1,0 +1,8 @@
+<div class="modal-backdrop" *ngIf="isVisible()">
+  <div class="modal-box">
+    <button class="close-button" (click)="modalService.close()">×</button>
+    <div class="modal-content">
+      {{ modalService.content() }}
+    </div>
+  </div>
+</div>

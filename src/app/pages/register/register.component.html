@@ -13,6 +13,10 @@
           formControlName="username"
           placeholder="Enter username"
         />
+        <app-form-error
+          [control]="registerForm.get('username')"
+          fieldName="Username"
+        ></app-form-error>
       </label>
 
       <label>
@@ -22,11 +26,14 @@
           formControlName="password"
           placeholder="Enter password"
         />
+        <app-form-error
+          [control]="registerForm.get('password')"
+          fieldName="Password"
+        ></app-form-error>
       </label>
-
       <label>
-        Profile Image (URL)
-        <input type="text" formControlName="image" placeholder="Image link" />
+        Profile Image
+        <input type="file" formControlName="image" placeholder="Image link" />
       </label>
 
       <button type="submit">Register</button>

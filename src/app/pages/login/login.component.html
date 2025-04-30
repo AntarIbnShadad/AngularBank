@@ -8,10 +8,14 @@
       If you do not have an account, <a routerLink="/register">register here</a>
     </p>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <label>
         Username
         <input type="text" formControlName="username" placeholder="Username" />
+        <app-form-error
+          [control]="loginForm.get('username')"
+          fieldNaMe="Username"
+        ></app-form-error>
       </label>
 
       <label>
@@ -22,6 +26,10 @@
           placeholder="Password"
         />
         <a class="forgot" href="#">Forgot password?</a>
+        <app-form-error
+          [control]="loginForm.get('password')"
+          fieldName="Password"
+        ></app-form-error>
       </label>
 
       <button type="submit">Log in</button>

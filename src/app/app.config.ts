@@ -1,10 +1,15 @@
 import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthInterceptor } from './interceptors/authentication.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideHttpClient()]
+  providers: [
+    provideHttpClient(withInterceptors([AuthInterceptor, ErrorInterceptor])),
+    provideRouter(routes),
+    CookieService,
+  ],
 };
