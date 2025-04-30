@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="form-section">
+    <div class="logo">💳 FullStack Bank</div>
+    <h2>Create your account</h2>
+    <p>Join us to manage your digital finances securely.</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <label>
+        Username
+        <input
+          type="text"
+          formControlName="username"
+          placeholder="Enter username"
+        />
+      </label>
+
+      <label>
+        Password
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter password"
+        />
+      </label>
+
+      <label>
+        Profile Image (URL)
+        <input type="text" formControlName="image" placeholder="Image link" />
+      </label>
+
+      <button type="submit">Register</button>
+      <div class="redirect">
+        Already have an account? <a routerLink="/login">Log in</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="visual-section">
+    <h1>Welcome to <strong>FullStack Bank</strong></h1>
+    <p>Access your account and manage transactions anytime, anywhere.</p>
+  </div>
+</div>

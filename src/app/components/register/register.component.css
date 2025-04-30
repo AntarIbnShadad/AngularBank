@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Left: form section */
+.form-section {
+  width: 45%;
+  background: #d7d9ce; /* light gray */
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-section .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #0c7489;
+}
+
+.form-section h2 {
+  font-size: 24px;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.form-section p {
+  font-size: 14px;
+  margin-bottom: 2rem;
+  color: #444;
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-section label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 14px;
+  color: #222;
+}
+
+.form-section input {
+  margin-top: 0.4rem;
+  padding: 0.75rem;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  font-size: 14px;
+  outline-color: #0c7489;
+}
+
+.form-section button {
+  background: #0c7489;
+  color: #fff;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.form-section button:hover {
+  background: #095c6e;
+}
+
+.form-section .redirect {
+  font-size: 13px;
+  margin-top: 1rem;
+}
+
+.form-section .redirect a {
+  color: #0c7489;
+  text-decoration: none;
+}
+
+/* Right: visual section */
+.visual-section {
+  width: 55%;
+  background: #0c7489; /* deep teal */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+}
+
+.visual-section h1 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.visual-section p {
+  font-size: 16px;
+  max-width: 400px;
+}
