@@ -7,7 +7,7 @@
 /* Left: form section */
 .form-section {
   width: 45%;
-  background: #d7d9ce; /* light gray */
+  background: #d7d9ce;
   padding: 4rem;
   display: flex;
   flex-direction: column;
@@ -84,21 +84,37 @@
 /* Right: visual section */
 .visual-section {
   width: 55%;
-  background: #0c7489; /* deep teal */
-  color: white;
+  background: #0c7489;
+  color: #d7d9ce;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center; /* center horizontally */
   padding: 4rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .visual-section h1 {
+  margin-top: 200px; /* previously 160px */
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .visual-section p {
   font-size: 16px;
   max-width: 400px;
+  text-align: center;
+}
+
+.overlay-logo {
+  position: absolute;
+  top: 40px;
+  width: 280px; /* bigger */
+  opacity: 0.25; /* more visible */
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.2)); /* optional: adds clarity */
 }
