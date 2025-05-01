@@ -36,7 +36,6 @@ export class AppComponent {
 
   logout() {
     this.cookieService.delete('token');
-    this.cookieService.delete('email');
     this.isLoggedIn.set(false);
     this.router.navigate(['/login']);
   }
