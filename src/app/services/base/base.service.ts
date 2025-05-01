@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class BaseService {
-  baseUrl = 'https://react-bank-project.eapi.joincoded.com/mini-project/api';
+  baseUrl = 'https://react-bank-project.eapi.joincoded.com/mini-project/api/';
 
   constructor(private readonly _http: HttpClient) {}
 
