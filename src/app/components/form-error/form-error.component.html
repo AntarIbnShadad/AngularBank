@@ -1,8 +1,8 @@
 @if (control!.errors && control!.dirty) { @if (control!.errors['required']) {
-<p>{{ fieldName }} is required.</p>
+<p class="text-red-500">{{ fieldName }} is required.</p>
 } @if (control!.errors['minlength']) {
-<p>
+<p class="text-red-500">
   {{ fieldName }} must be at least
   {{ control!.errors["minlength"].requiredLength }} characters.
 </p>
-}}
+} }

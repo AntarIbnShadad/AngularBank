@@ -8,7 +8,6 @@ import { ModalService } from '../../services/modal/modal.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css'],
 })
 export class ModalComponent {
   constructor(public modalService: ModalService) {}
