@@ -1,58 +1,85 @@
-<div class="container">
-  <!-- Left: form section -->
-  <div class="form-section">
-    <div class="logo-text">💳 FullStack Bank</div>
-    <h2>Create your account</h2>
-    <p>Join us to manage your digital finances securely.</p>
+<body
+  class="min-h-screen flex items-center justify-center bg-[#D1FFD7] overflow-hidden px-10 pb-10"
+>
+  <!-- Pattern Background -->
+  <div class="absolute inset-0 z-0 pattern-bg">
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/0"
+    ></div>
+  </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <label>
-        Username
+  <!-- Floating Card -->
+  <div
+    class="relative z-10 max-w-xl w-full bg-white rounded-3xl shadow-2xl border border-[#A6D3A0] p-10"
+    style="
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1),
+        -5px 0 15px rgba(0, 0, 0, 0.05), 5px 0 15px rgba(0, 0, 0, 0.05);
+    "
+  >
+    <div class="text-2xl font-bold text-[#808782] mb-4">💳 FullStack Bank</div>
+    <h2 class="text-3xl font-semibold text-[#656565] mb-2">
+      Create your account
+    </h2>
+    <p class="text-sm text-[#808782] mb-6">
+      Join us to manage your digital finances securely.
+    </p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-[#656565]">Username</label>
         <input
           type="text"
           formControlName="username"
           placeholder="Enter username"
+          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A6D3A0]"
         />
         <app-form-error
           [control]="registerForm.get('username')"
-          fieldName="Username"
+          fieldNaMe="Username"
         ></app-form-error>
-      </label>
+      </div>
 
-      <label>
-        Password
+      <div>
+        <label class="block text-sm font-medium text-[#656565]">Password</label>
         <input
           type="password"
           formControlName="password"
           placeholder="Enter password"
+          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A6D3A0]"
         />
         <app-form-error
           [control]="registerForm.get('password')"
-          fieldName="Password"
+          fieldNaMe="Password"
         ></app-form-error>
-      </label>
-      <label>
-        Profile Image
-        <input type="file" formControlName="image" placeholder="Image link" />
-      </label>
+      </div>
 
-      <button type="submit">Register</button>
-      <div class="redirect">
-        Already have an account? <a routerLink="/login">Log in</a>
+      <div>
+        <label class="block text-sm font-medium text-[#656565]"
+          >Profile Image (URL)</label
+        >
+        <input
+          type="file"
+          formControlName="image"
+          placeholder="Image link"
+          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A6D3A0]"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="bg-[#A6D3A0] hover:bg-[#B3FFB3] text-white font-semibold py-2 rounded-md w-full transition duration-200"
+      >
+        Register
+      </button>
+
+      <div class="text-xs text-[#656565] mt-4">
+        Already have an account?
+        <a
+          routerLink="/login"
+          class="text-[#808782] font-medium hover:underline"
+          >Log in</a
+        >
       </div>
     </form>
   </div>
-
-  <!-- Right: visual section with logo -->
-  <div class="visual-section">
-    <div class="visual-section">
-      <img
-        src="assets/images/fullstack-logo.png"
-        alt="FullStack Bank Logo"
-        class="overlay-logo"
-      />
-      <h1>Welcome to <strong>FullStack Bank</strong></h1>
-      <p>Access your account and manage transactions anytime, anywhere.</p>
-    </div>
-  </div>
-</div>
+</body>

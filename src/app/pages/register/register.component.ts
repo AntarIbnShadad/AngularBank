@@ -17,11 +17,9 @@ import { FormErrorComponent } from '../../components/form-error/form-error.compo
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  // selectedImage: File | null = null;
 
   constructor(
     private fb: FormBuilder,
-    // private authService: ApiService,
     private authService: AuthenticationService,
     private cookieService: CookieService,
     private router: Router
@@ -33,9 +31,6 @@ export class RegisterComponent {
     });
   }
 
-  // onFileSelected(event: any) {
-  //   this.selectedImage = event.target.files[0];
-  // }
   onFileSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files?.length) {
@@ -43,27 +38,6 @@ export class RegisterComponent {
     }
   }
 
-  // onSubmit() {
-  //   //if (this.registerForm.valid && this.selectedImage) {
-  //   const registerData: Register = {
-  //     username: this.registerForm.value.username,
-  //     password: this.registerForm.value.password,
-  //     image: this.registerForm.value.image,
-  //   };
-
-  //   this.authService.register(registerData).subscribe({
-  //     next: () => {
-  //       alert('Account created successfully!');
-  //       this.router.navigate(['/login']);
-  //       console.log('success');
-  //     },
-  //     error: (err) => {
-  //       alert('Registration failed');
-  //       console.error(err);
-  //     },
-  //   });
-  //   //}
-  // }
   onSubmit() {
     if (this.registerForm.invalid) return;
 
