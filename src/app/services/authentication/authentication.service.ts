@@ -7,7 +7,7 @@ import { BaseService } from '../base/base.service';
 export class AuthenticationService extends BaseService {
   login(data: Login): Observable<AuthResponse> {
     return this.post<AuthResponse, Login>(
-      `${this.baseUrl}/mini-project/api/auth/login`,
+      `${this.baseUrl}auth/login`,
       data
     ).pipe(
       catchError((error) => {
@@ -19,7 +19,7 @@ export class AuthenticationService extends BaseService {
 
   register(data: FormData): Observable<AuthResponse> {
     return this.post<AuthResponse, FormData>(
-      `${this.baseUrl}/mini-project/api/auth/register`,
+      `${this.baseUrl}auth/register`,
       data
     ).pipe(
       catchError((error) => {
