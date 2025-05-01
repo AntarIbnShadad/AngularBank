@@ -16,7 +16,6 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormErrorComponent, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
   providers: [CookieService],
 })
 export class LoginComponent {

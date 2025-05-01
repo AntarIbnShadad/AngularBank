@@ -1,38 +1,67 @@
-<div class="auth-container">
-  <div class="auth-image">
-    <img src="assets/images/bank-illustration.png" alt="Bank illustration" />
+<div class="flex justify-center items-center min-h-screen gap-16 p-8 bg-white">
+  <!-- Left image section -->
+  <div class="w-full max-w-[450px]">
+    <img
+      src="assets/images/bank-illustration.png"
+      alt="Bank illustration"
+      class="w-full"
+    />
   </div>
-  <div class="auth-form">
-    <h2 class="title">Log in to your account</h2>
-    <p>
-      If you do not have an account, <a routerLink="/register">register here</a>
+
+  <!-- Right login form section -->
+  <div class="w-full max-w-[400px] flex flex-col">
+    <h2 class="text-[#28a745] text-2xl font-semibold mb-2">
+      Log in to your account
+    </h2>
+    <p class="text-sm mb-6">
+      If you do not have an account,
+      <a routerLink="/register" class="text-[#007bff] hover:underline"
+        >register here</a
+      >
     </p>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <label>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col gap-4"
+    >
+      <label class="flex flex-col font-medium text-sm">
         Username
-        <input type="text" formControlName="username" placeholder="Username" />
+        <input
+          type="text"
+          formControlName="username"
+          placeholder="Username"
+          class="mt-1 p-2 border border-gray-300 rounded text-sm"
+        />
         <app-form-error
           [control]="loginForm.get('username')"
           fieldNaMe="Username"
         ></app-form-error>
       </label>
 
-      <label>
+      <label class="flex flex-col font-medium text-sm">
         Password
         <input
           type="password"
           formControlName="password"
           placeholder="Password"
+          class="mt-1 p-2 border border-gray-300 rounded text-sm"
         />
-        <a class="forgot" href="#">Forgot password?</a>
+        <a class="mt-1 text-xs self-end text-[#007bff] hover:underline" href="#"
+          >Forgot password?</a
+        >
         <app-form-error
           [control]="loginForm.get('password')"
           fieldName="Password"
         ></app-form-error>
       </label>
 
-      <button type="submit">Log in</button>
+      <button
+        type="submit"
+        class="bg-[#28a745] hover:bg-[#218838] text-white font-bold p-3 rounded text-[15px] transition"
+      >
+        Log in
+      </button>
     </form>
   </div>
 </div>

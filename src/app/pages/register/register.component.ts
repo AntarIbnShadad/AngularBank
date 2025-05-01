@@ -12,7 +12,6 @@ import { FormErrorComponent } from '../../components/form-error/form-error.compo
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormErrorComponent, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
   providers: [CookieService],
 })
 export class RegisterComponent {
