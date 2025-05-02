@@ -1,0 +1,41 @@
+<div class="p-10">
+  <app-search-bar
+    [searchQuery]="query()"
+    (search)="setQuery($event)"
+  ></app-search-bar>
+
+  @if (error()) {
+  <p class="text-red-500">{{ error() }}</p>
+  } @if (filteredUsers.length > 0) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    @for (user of filteredUsers; track user._id) {
+    <div
+      class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4"
+    >
+      <!-- <img
+        [src]="getImageUrl(user.image)"
+        alt="{{ user.username ?? 'Unknown' }}"
+        class="w-24 h-24 rounded-full object-cover border"
+      /> -->
+
+      <div class="font-semibold text-lg">{{ user.username ?? "Unknown" }}</div>
+      <div class="text-gray-600">Balance: {{ user.balance }}</div>
+
+      <button
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+      >
+        Transfer
+      </button>
+    </div>
+    }
+  </div>
+  } @else if (!isLoaded()) {
+  <div class="w-full h-screen flex items-center justify-center text-black">
+    Loading users...
+  </div>
+  } @else {
+  <div class="w-full h-screen flex items-center justify-center text-black">
+    No users found
+  </div>
+  }
+</div>

@@ -39,7 +39,7 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
         this.cookieService.set('token', res.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/users']);
       },
       error: (err) => {
         console.error('Login failed, please try again.', err);

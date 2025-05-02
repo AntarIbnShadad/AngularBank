@@ -1,2 +1,14 @@
+@if (!isReady) {
+<div
+  class="w-full h-screen flex flex-col items-center justify-center text-gray-500 space-y-4"
+>
+  <div
+    class="w-12 h-12 border-4 border-green-400 border-t-transparent rounded-full animate-spin"
+  ></div>
+  <p>Loading app, please wait...</p>
+</div>
+} @else {
 <router-outlet></router-outlet>
+}
+
 <app-toast />

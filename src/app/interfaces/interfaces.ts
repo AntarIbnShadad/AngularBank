@@ -27,3 +27,10 @@ export interface AuthResponse {
 export interface CanComponentDeactivate {
   canDeactivate: () => boolean | Promise<boolean>;
 }
+
+export interface User {
+  _id: string;
+  username?: string;
+  image?: string;
+  balance: number;
+}
