@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ToastService } from '../../services/toast/toast.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,6 +9,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './toast.component.html',
 })
 export class ToastComponent {
+  private toastService = inject(ToastService);
   toasts = computed(() => this.toastService.toastSignal());
-  constructor(private toastService: ToastService) {}
 }

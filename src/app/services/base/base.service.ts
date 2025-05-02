@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BaseService {
   baseUrl = 'https://react-bank-project.eapi.joincoded.com/mini-project/api/';
-
-  constructor(private readonly _http: HttpClient) {}
+  private cookieService = inject(CookieService);
+  private _http = inject(HttpClient);
 
   private ensureJsonContentType(headers?: HttpHeaders): HttpHeaders {
     if (!headers) {
@@ -20,7 +21,7 @@ export class BaseService {
   }
 
   private getAuthHeaders(headers?: HttpHeaders): HttpHeaders {
-    const token = localStorage.getItem('token');
+    const token = this.cookieService.get('token');
     let finalHeaders = headers ?? new HttpHeaders();
 
     if (token && !finalHeaders.has('Authorization')) {

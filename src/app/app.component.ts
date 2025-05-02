@@ -1,8 +1,7 @@
-import { Component, effect, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { filter } from 'rxjs/operators';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { ToastComponent } from './components/toast/toast.component';
+import { AuthGuardService } from './services/authentication/auth-guard.service';
 
 @Component({
   selector: 'app-root',
@@ -13,30 +12,19 @@ import { ToastComponent } from './components/toast/toast.component';
 })
 export class AppComponent {
   title = 'AngularBank';
-  isLoggedIn = signal(false);
+  private authService = inject(AuthGuardService);
+  private router = inject(Router);
 
-  constructor(private cookieService: CookieService, private router: Router) {
-    this.checkAuth();
-
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.checkAuth();
-      });
-
-    effect(() => {
-      this.isLoggedIn();
-    });
+  get isReady() {
+    return this.authService.isReady();
   }
 
-  checkAuth() {
-    const token = this.cookieService.get('token');
-    token ? this.isLoggedIn.set(true) : this.isLoggedIn.set(false);
+  get isLoggedIn() {
+    return this.authService.isAuthenticated();
   }
 
   logout() {
-    this.cookieService.delete('token');
-    this.isLoggedIn.set(false);
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

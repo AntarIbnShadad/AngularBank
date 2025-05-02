@@ -1,18 +1,32 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { CanActivateFn, CanLoadFn, Router } from '@angular/router';
+import { AuthGuardService } from '../services/authentication/auth-guard.service';
 
-export const authGuard: CanActivateFn = () => {
-  const router = inject(Router);
-  const cookieService = inject(CookieService);
+export function authGuard(
+  allowedForLoggedIn: boolean = true
+): CanActivateFn | CanLoadFn {
+  return () => {
+    const authService = inject(AuthGuardService);
+    const router = inject(Router);
 
-  const token = cookieService.get('token');
+    if (!authService.isReady()) {
+      return false;
+    }
 
-  if (!token) {
-    router.navigate(['/login']);
-    return false;
-  }
+    const isLoggedIn = authService.isAuthenticated();
 
-  return true;
-};
+    if (allowedForLoggedIn) {
+      if (!isLoggedIn) {
+        router.navigate(['/login']);
+        return false;
+      }
+    } else {
+      if (isLoggedIn) {
+        router.navigate(['/users']);
+        return false;
+      }
+    }
+
+    return true;
+  };
+}
