@@ -1,1 +1,81 @@
-<p>nav-bar works!</p>
+<nav
+  class="w-full bg-white dark:bg-gray-900 shadow px-6 py-4 flex justify-between items-center"
+>
+  <!-- Logo -->
+  <div class="text-2xl font-bold text-green-600 dark:text-green-400">
+    AngularBank
+  </div>
+
+  <!-- Desktop Links -->
+  <ul
+    class="hidden md:flex space-x-6 text-gray-700 dark:text-gray-200 font-medium items-center gap-3"
+  >
+    <li>
+      <a
+        routerLink="/users"
+        routerLinkActive="text-green-600 dark:text-green-400"
+        class="hover:text-green-600 dark:hover:text-green-400"
+      >
+        Users
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/transactions"
+        routerLinkActive="text-green-600 dark:text-green-400"
+        class="hover:text-green-600 dark:hover:text-green-400"
+      >
+        Transactions
+      </a>
+    </li>
+
+    @if (isLoggedIn) {
+    <li>
+      <button
+        (click)="onLogout()"
+        class="hover:text-red-600 dark:hover:text-red-400"
+      >
+        Logout
+      </button>
+    </li>
+    }
+  </ul>
+
+  <!-- Mobile Toggle -->
+  <button class="md:hidden text-2xl dark:text-white" (click)="toggleMenu()">
+    ☰
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+@if (menuOpen()) {
+<div
+  class="md:hidden bg-white dark:bg-gray-800 border-t shadow px-6 py-4 space-y-4 text-gray-700 dark:text-gray-200 font-medium"
+>
+  <a
+    routerLink="/users"
+    routerLinkActive="text-green-600 dark:text-green-400"
+    class="block hover:text-green-600 dark:hover:text-green-400"
+  >
+    Users
+  </a>
+  <a
+    routerLink="/transactions"
+    routerLinkActive="text-green-600 dark:text-green-400"
+    class="block hover:text-green-600 dark:hover:text-green-400"
+  >
+    Transactions
+  </a>
+
+  @if (isLoggedIn) {
+  <div>
+    <button
+      (click)="onLogout()"
+      class="block hover:text-red-600 dark:hover:text-red-400"
+    >
+      Logout
+    </button>
+  </div>
+  }
+</div>
+}

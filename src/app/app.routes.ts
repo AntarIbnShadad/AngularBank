@@ -3,6 +3,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { UsersComponent } from './pages/users/users.component';
 import { authGuard } from './guards/auth.guard';
+import { canDeactivateGuard } from './guards/can-deactivate.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -10,19 +11,18 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canLoad: [authGuard(false)],
   },
   {
     path: 'register',
     component: RegisterComponent,
-    canLoad: [authGuard(false)],
   },
 
   {
     path: 'users',
     component: UsersComponent,
-    canLoad: [authGuard(true)],
+    canActivate: [authGuard],
+    canDeactivate: [canDeactivateGuard],
   },
 
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: '/users' },
 ];
