@@ -1,3 +1,4 @@
+@if (user()) {
 <div
   class="min-h-[calc(100vh-80px)] pt-20 flex flex-col items-center justify-center bg-white text-gray-800 relative"
 >
@@ -8,7 +9,6 @@
     ← Back
   </button>
 
-  @if (user()) {
   <div class="w-full max-w-md p-8 rounded-lg shadow space-y-6">
     <div class="flex justify-center">
       <img
@@ -27,14 +27,14 @@
 
     <div class="flex justify-center">
       <button
+        (click)="openTransferModal(user()?.username ?? '')"
         class="bg-green-500 hover:bg-green-600 text-white px-8 py-2 rounded"
       >
         Transfer
       </button>
     </div>
   </div>
-
-  } @else {
-  <app-user-details-skeleton></app-user-details-skeleton>
-  }
 </div>
+} @else {
+<app-user-details-skeleton></app-user-details-skeleton>
+}

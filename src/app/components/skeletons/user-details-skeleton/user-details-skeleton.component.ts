@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-details-skeleton',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './user-details-skeleton.component.html',
 })
-export class UserDetailsSkeletonComponent {}
+export class UserDetailsSkeletonComponent {
+  private router = inject(Router);
+  goBack() {
+    this.router.navigate(['/users']);
+  }
+}

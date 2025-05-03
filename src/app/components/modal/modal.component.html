@@ -1,16 +1,44 @@
 @if (isVisible()) {
 <div
-  class="fixed inset-0 bg-black bg-opacity-50 z-[1000] flex items-center justify-center"
+  class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
 >
-  <div class="bg-white p-6 rounded-lg relative w-[90%] max-w-[500px] shadow-lg">
+  <div
+    class="bg-white p-6 rounded-lg relative w-[90%] max-w-[500px] shadow-lg space-y-6 text-center"
+  >
     <button
       (click)="modalService.close()"
       class="absolute top-2 right-3 text-xl bg-transparent border-none cursor-pointer"
     >
       ×
     </button>
-    <div class="mt-4 text-base text-[#333]">
-      {{ modalService.content() }}
+
+    <div class="text-lg font-semibold">
+      Transfer funds to
+      <span class="text-green-600">{{ username() }}</span>
+    </div>
+
+    <div class="text-gray-500 text-sm">
+      Your balance: <strong>{{ currentUser()?.balance ?? "" }} KWD</strong>
+    </div>
+
+    <div class="space-y-4 w-full max-w-xs mx-auto">
+      <label class="block text-center">
+        <span class="text-gray-700 block mb-2">Amount</span>
+        <input
+          type="number"
+          [(ngModel)]="amount"
+          placeholder="Enter amount"
+          class="border rounded px-4 py-2 w-full text-center"
+        />
+      </label>
+
+      <button
+        class="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white px-6 py-2 rounded w-full"
+        (click)="transfer()"
+        [disabled]="submitting()"
+      >
+        Transfer
+      </button>
     </div>
   </div>
 </div>

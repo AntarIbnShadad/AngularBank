@@ -5,10 +5,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { guestGuard } from './guards/guest.guard';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-
   {
     path: 'login',
     component: LoginComponent,
@@ -20,6 +19,7 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
 
+  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   {
     path: 'users',
     component: UsersComponent,
@@ -31,5 +31,5 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
 
-  { path: '**', redirectTo: '/users' },
+  { path: '**', redirectTo: '/home' },
 ];

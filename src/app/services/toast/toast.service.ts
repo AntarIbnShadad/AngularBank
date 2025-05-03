@@ -17,19 +17,19 @@ export class ToastService {
   private idCounter = 0;
   toastSignal = computed(() => this.toasts());
 
-  show(type: ToastType, message: string) {
+  show(type: ToastType, message: string, duration = 3000) {
     const id = ++this.idCounter;
     this.toasts.update((toasts) => [...toasts, { id, type, message }]);
     setTimeout(() => {
       this.toasts.update((toasts) => toasts.filter((t) => t.id !== id));
-    }, 3000);
-  }
-
-  success(msg: string) {
-    this.show(ToastType.success, msg);
+    }, duration);
   }
 
   error(msg: string) {
-    this.show(ToastType.error, msg);
+    this.show(ToastType.error, msg, 5000);
+  }
+
+  success(msg: string) {
+    this.show(ToastType.success, msg, 2000);
   }
 }

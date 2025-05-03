@@ -24,4 +24,13 @@ export class UsersService extends BaseService {
       })
     );
   }
+
+  getProfile(): Observable<User> {
+    return this.get<User>(this.baseUrl + `auth/me`).pipe(
+      catchError((error) => {
+        console.error('Error fetching users:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }

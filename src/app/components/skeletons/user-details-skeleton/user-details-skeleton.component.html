@@ -1,14 +1,25 @@
-<div class="w-full max-w-md p-8 rounded-lg shadow space-y-6">
-  <div class="flex justify-center mb-6">
-    <div class="w-40 h-40 rounded-full bg-gray-200 shimmer"></div>
-  </div>
+<div
+  class="min-h-[calc(100vh-80px)] pt-20 flex items-center justify-center bg-white relative"
+>
+  <button
+    (click)="goBack()"
+    class="absolute left-4 top-4 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-xl z-10"
+  >
+    ← Back
+  </button>
 
-  <div class="space-y-4">
-    <div class="w-2/3 h-6 bg-gray-200 shimmer rounded mx-auto"></div>
-    <div class="w-3/4 h-5 bg-gray-200 shimmer rounded mx-auto"></div>
+  <div class="w-full max-w-md p-8 rounded-lg shadow space-y-6">
+    <div class="flex justify-center mb-6">
+      <div class="w-40 h-40 rounded-full bg-gray-200 shimmer"></div>
+    </div>
 
-    <div class="flex justify-center">
-      <div class="w-32 h-10 bg-gray-200 shimmer rounded"></div>
+    <div class="space-y-4">
+      <div class="w-2/3 h-6 bg-gray-200 shimmer rounded mx-auto"></div>
+      <div class="w-3/4 h-5 bg-gray-200 shimmer rounded mx-auto"></div>
+
+      <div class="flex justify-center">
+        <div class="w-32 h-10 bg-gray-200 shimmer rounded"></div>
+      </div>
     </div>
   </div>
 </div>
