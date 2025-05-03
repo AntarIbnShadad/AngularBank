@@ -15,4 +15,13 @@ export class UsersService extends BaseService {
       })
     );
   }
+
+  getUser(id: string): Observable<User> {
+    return this.get<User>(this.baseUrl + `auth/user/${id}`).pipe(
+      catchError((error) => {
+        console.error('Error fetching users:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }
