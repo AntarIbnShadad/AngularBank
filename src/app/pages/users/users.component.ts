@@ -1,9 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
-import { UsersService } from '../../services/users/users.service';
-import { User } from '../../interfaces/interfaces';
 import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
-import { AuthGuardService } from '../../services/authentication/auth-guard.service';
+import { User } from '../../interfaces/interfaces';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-users',
@@ -12,33 +12,26 @@ import { AuthGuardService } from '../../services/authentication/auth-guard.servi
   templateUrl: './users.component.html',
 })
 export class UsersComponent {
+  private usersService = inject(UsersService);
+  private cookieService = inject(CookieService);
+
   query = signal('');
   users = signal<User[]>([]);
   error = signal<string | null>(null);
   isLoaded = signal(false);
-
-  private usersService = inject(UsersService);
-  private authGuardService = inject(AuthGuardService);
+  isLoggedIn = !!this.cookieService.get('token');
 
   constructor() {
+    this.isLoggedIn = this.cookieService.check('token');
     this.loadUsers();
   }
 
   loadUsers() {
-    if (!this.authGuardService.isAuthenticated()) return;
-
     this.usersService.getAllUsers().subscribe({
       next: (response) => {
         this.users.set(response);
-        console.log(this.users);
         this.query.set('');
         this.isLoaded.set(true);
-
-        response.forEach((user) => {
-          if (user.image) {
-            console.log('User image:', user.image);
-          }
-        });
       },
       error: () => {
         this.error.set('Failed to load users.');

@@ -1,32 +1,23 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, CanLoadFn, Router } from '@angular/router';
-import { AuthGuardService } from '../services/authentication/auth-guard.service';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
-export function authGuard(
-  allowedForLoggedIn: boolean = true
-): CanActivateFn | CanLoadFn {
-  return () => {
-    const authService = inject(AuthGuardService);
-    const router = inject(Router);
+export const authGuard: CanActivateFn = () => {
+  const platformId = inject(PLATFORM_ID);
+  const cookieService = inject(CookieService);
+  const router = inject(Router);
 
-    if (!authService.isReady()) {
-      return false;
-    }
+  const token = cookieService.get('token');
 
-    const isLoggedIn = authService.isAuthenticated();
-
-    if (allowedForLoggedIn) {
-      if (!isLoggedIn) {
-        router.navigate(['/login']);
-        return false;
-      }
-    } else {
-      if (isLoggedIn) {
-        router.navigate(['/users']);
-        return false;
-      }
-    }
-
+  if (!isPlatformBrowser(platformId)) {
     return true;
-  };
-}
+  }
+
+  if (!token) {
+    router.navigate(['/login']);
+    return false;
+  }
+
+  return true;
+};
