@@ -30,6 +30,6 @@ export class ToastService {
   }
 
   success(msg: string) {
-    this.show(ToastType.success, msg, 2000);
+    this.show(ToastType.success, msg, 3000);
   }
 }

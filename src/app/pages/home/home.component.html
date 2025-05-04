@@ -16,7 +16,6 @@
 
   <!-- Transaction form -->
   <div class="w-full max-w-md p-6 bg-white rounded-lg shadow space-y-6">
-    <!-- Toggle -->
     <div class="flex items-center justify-center space-x-4">
       <span [class.font-bold]="!withdrawMode()">Deposit</span>
       <label class="inline-flex items-center cursor-pointer">
@@ -36,7 +35,6 @@
       <span [class.font-bold]="withdrawMode()">Withdraw</span>
     </div>
 
-    <!-- Amount input -->
     <div class="space-y-2">
       <label class="block text-gray-700 text-center mb-2">Amount</label>
       <input
@@ -47,7 +45,6 @@
       />
     </div>
 
-    <!-- Submit -->
     <div class="flex justify-center">
       <button
         (click)="submit()"
@@ -58,5 +55,41 @@
       </button>
     </div>
   </div>
+
+  <!-- Deposit Link Generator -->
+  @if(user()) {
+  <div class="w-full max-w-md p-6 bg-white rounded-lg shadow space-y-4 mt-6">
+    <h3 class="text-lg font-semibold">Generate Deposit Link</h3>
+
+    <label class="block">
+      <span class="text-gray-600">Amount:</span>
+      <input
+        type="number"
+        [(ngModel)]="depositAmount"
+        placeholder="Enter amount"
+        class="border rounded px-4 py-2 mt-2 w-full"
+      />
+    </label>
+
+    <button
+      (click)="generateLink()"
+      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+    >
+      Generate Link
+    </button>
+
+    @if(depositLink){
+    <p>
+      <span class="text-gray-600">Your link (click to copy):</span>
+      <code
+        class="bg-gray-100 px-2 py-1 block cursor-pointer hover:bg-gray-200"
+        (click)="copyLink()"
+      >
+        {{ depositLink }}
+      </code>
+    </p>
+    }
+  </div>
+  }
 </div>
 }

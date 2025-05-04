@@ -19,12 +19,15 @@ export class HomeComponent {
   private toastService = inject(ToastService);
 
   user = signal<User | null>(null);
+  username = signal<string | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
   transactionError = signal<string | null>(null);
   amount = signal<number | null>(null);
   withdrawMode = signal(false);
   submitting = signal(false);
+  depositAmount = 0;
+  depositLink = '';
 
   constructor() {
     this.fetchProfile();
@@ -34,6 +37,7 @@ export class HomeComponent {
     this.usersService.getProfile().subscribe({
       next: (profile) => {
         this.user.set(profile);
+        this.username.set(profile.username || null);
         this.loading.set(false);
       },
       error: () => {
@@ -94,5 +98,28 @@ export class HomeComponent {
         this.submitting.set(false);
       },
     });
+  }
+
+  copyLink() {
+    if (!this.depositLink) {
+      this.toastService.error('No link to copy.');
+      return;
+    }
+
+    navigator.clipboard.writeText(this.depositLink).then(() => {
+      this.toastService.success('Link copied to clipboard!');
+    });
+  }
+
+  generateLink() {
+    const currentUsername = this.username();
+
+    if (!currentUsername) {
+      this.toastService.error('User not loaded yet.');
+      return;
+    }
+
+    this.depositLink = `https://react-bank-project.eapi.joincoded.com/mini-project/api/deposit?account=${currentUsername}&amount=${this.depositAmount}`;
+    this.copyLink();
   }
 }

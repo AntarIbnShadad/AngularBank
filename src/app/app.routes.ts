@@ -6,6 +6,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { guestGuard } from './guards/guest.guard';
 import { HomeComponent } from './pages/home/home.component';
+import { DepositLinkComponent } from './pages/deposit-link/deposit-link.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,11 @@ export const routes: Routes = [
   {
     path: 'user/:id',
     component: UserDetailsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'deposit',
+    component: DepositLinkComponent,
     canActivate: [authGuard],
   },
 
