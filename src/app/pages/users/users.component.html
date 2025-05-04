@@ -32,7 +32,6 @@
       <div class="font-semibold text-lg">
         {{ user.username ?? "Unknown" }}
       </div>
-      <div class="text-gray-600">Balance: {{ user.balance }}</div>
       @if(isNotCurrentUser(user)){
       <button
         class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
