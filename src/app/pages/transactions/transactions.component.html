@@ -1,5 +1,8 @@
-
-<div class="flex justify-center mt-8">
+@if(loading){
+  <app-transaction-table-skeleton></app-transaction-table-skeleton>
+}
+@else{
+  <div class="flex justify-center mt-8">
     <table class="w-[90%] md:w-4/5 lg:w-2/3 border-separate border-spacing-y-4">
       <thead>
         <tr class="text-left text-gray-600 text-sm">
@@ -15,11 +18,12 @@
           <tr class="bg-white shadow-md rounded-xl overflow-hidden">
             <td class="p-4 rounded-l-xl" [style.color] = "item.type | transferDeposit">{{ item.type }}</td>
             <td class="p-4">{{ item.amount }}</td>
-            <td class="p-4">{{ item.from | idToUsername | async }}</td>
-            <td class="p-4">{{ item.to | idToUsername | async }}</td>
+            <td class="p-4">{{ item.from }}</td>
+            <td class="p-4">{{ item.to }}</td>
             <td class="p-4 rounded-r-xl">{{ item.createdAt | date}}</td>
           </tr>
         }
       </tbody>
     </table>
   </div>
+}
