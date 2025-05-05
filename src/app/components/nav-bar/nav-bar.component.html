@@ -1,9 +1,16 @@
 <nav
-  class="relative z-40 w-full bg-white dark:bg-gray-900 shadow px-6 py-4 flex justify-between items-center"
+  class="relative z-40 w-full bg-white dark:bg-gray-900 shadow px-6 py-4 flex justify-between items-center animate-fade-in"
 >
   <!-- Logo -->
-  <div class="text-2xl font-bold text-green-600 dark:text-green-400">
-    AngularBank
+  <div class="flex items-center gap-3">
+    <img
+      src="assets/images/l1.png"
+      alt="Bank Logo"
+      class="h-10 w-10 object-cover"
+    />
+    <span class="text-2xl font-bold text-green-600 dark:text-green-400">
+      Um Al Maradim Bank
+    </span>
   </div>
 
   <!-- Desktop Links -->
@@ -60,7 +67,7 @@
 <!-- Mobile Menu -->
 @if (menuOpen()) {
 <div
-  class="md:hidden bg-white dark:bg-gray-800 border-t shadow px-6 py-4 space-y-4 text-gray-700 dark:text-gray-200 font-medium"
+  class="md:hidden bg-white dark:bg-gray-800 border-t shadow px-6 py-4 space-y-4 text-gray-700 dark:text-gray-200 font-medium animate-fade-in"
 >
   <a
     routerLink="/users"
