@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base/base.service';
+import { transaction } from '../../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -25,4 +26,10 @@ export class TransactionsService extends BaseService {
       { amount }
     );
   }
+  getUserTransactions(){
+    return this.get<transaction[]>(
+      this.baseUrl+'transactions/my'
+    )
+  }
+
 }

@@ -34,3 +34,17 @@ export interface User {
   image?: string;
   balance: number;
 }
+
+export interface base{
+  _id:number
+  __v:number
+}
+
+export interface transaction extends base{
+  type: string
+  amount: number
+  from: string 
+  to: string 
+  createdAt: Date
+  updatedAt: Date
+}
