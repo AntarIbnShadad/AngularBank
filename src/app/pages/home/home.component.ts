@@ -122,4 +122,8 @@ export class HomeComponent {
     this.depositLink = `https://react-bank-project.eapi.joincoded.com/mini-project/api/deposit?account=${currentUsername}&amount=${this.depositAmount}`;
     this.copyLink();
   }
+
+  formatBalance(balance: number): string {
+    return balance % 1 === 0 ? balance.toString() : balance.toFixed(3);
+  }
 }

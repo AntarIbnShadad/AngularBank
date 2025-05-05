@@ -73,4 +73,7 @@ export class ModalComponent {
       },
     });
   }
+  formatBalance(balance: number): string {
+    return balance % 1 === 0 ? balance.toString() : balance.toFixed(3);
+  }
 }
