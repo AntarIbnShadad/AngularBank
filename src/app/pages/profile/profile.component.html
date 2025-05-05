@@ -1,1 +1,51 @@
-<p>profile works!</p>
+<!-- Wrapper to center the card -->
+<div class="flex items-center justify-center min-h-screen ">
+
+    <!-- Card -->
+    <div class="max-w-sm w-full rounded-3xl overflow-hidden shadow-lg bg-white text-center">
+      <!-- Top Bar -->
+      <div class="bg-green-600 py-5 relative">
+        <span class="absolute top-2 left-2 bg-white text-red-600 text-xs font-bold px-2 py-0.5 rounded-full">PRO</span>
+        <img
+          [src]="user.image || 'https://via.placeholder.com/100'"
+          alt="User Avatar"
+          class="w-24 h-24 rounded-full border-4 border-white mx-auto -mb-12"
+        />
+      </div>
+  
+      <!-- Main Content -->
+      <div class="pt-16 pb-6 px-6">
+        <h3 class="text-xl font-bold text-gray-800">{{ user.username || 'Anonymous' }}</h3>
+        <p class="text-gray-500 text-sm mb-2">example</p>
+        <p class="text-gray-400 text-xs mb-4">User Balance Card</p>
+  
+        <!-- Stats -->
+        <div class="flex justify-center space-x-6 mb-6">
+          <div class="text-center">
+            <p class="text-green-600 font-bold text-lg">{{ user.balance }}</p>
+            <p class="text-sm text-gray-500">Balance</p>
+          </div>
+          <div class="text-center">
+            <p class="text-green-600 font-bold text-lg">430</p>
+            <p class="text-sm text-gray-500">Followers</p>
+          </div>
+          <div class="text-center">
+            <p class="text-green-600 font-bold text-lg">210</p>
+            <p class="text-sm text-gray-500">Following</p>
+          </div>
+        </div>
+  
+        <!-- Follow Button -->
+        <button class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700">Follow</button>
+  
+        <!-- Social Icons -->
+        <div class="flex justify-center space-x-4 mt-4 text-gray-500">
+          <i class="fab fa-facebook-f hover:text-blue-600 cursor-pointer"></i>
+          <i class="fab fa-twitter hover:text-sky-400 cursor-pointer"></i>
+          <i class="fab fa-instagram hover:text-pink-500 cursor-pointer"></i>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  
