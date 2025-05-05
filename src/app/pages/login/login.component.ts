@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { FormErrorComponent } from '../../components/form-error/form-error.component';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
@@ -20,17 +20,20 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 })
 export class LoginComponent {
   loginForm!: FormGroup;
+  returnUrl: string = '/users';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private cookieService: CookieService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/users';
   }
 
   onSubmit() {
@@ -39,7 +42,7 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
         this.cookieService.set('token', res.token, { expires: 30 });
-        this.router.navigate(['/users']);
+        this.router.navigateByUrl(this.returnUrl);
       },
       error: (err) => {
         console.error('Login failed, please try again.', err);

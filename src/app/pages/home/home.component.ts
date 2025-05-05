@@ -6,11 +6,12 @@ import { User } from '../../interfaces/interfaces';
 import { TransactionsService } from '../../services/transactions/transactions.service';
 import { HomeSkeletonComponent } from '../../components/skeletons/home-skeleton/home-skeleton.component';
 import { ToastService } from '../../services/toast/toast.service';
+import { TransferLinkGeneratorComponent } from '../../components/transfer-link-generator/transfer-link-generator.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, HomeSkeletonComponent],
+  imports: [CommonModule, FormsModule, HomeSkeletonComponent, TransferLinkGeneratorComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
