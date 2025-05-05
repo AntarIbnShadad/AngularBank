@@ -8,29 +8,44 @@ import { TransferDepositPipe } from '../../pipes/transfer-deposit.pipe';
 import { CommonModule } from '@angular/common';
 import { TransactionTableSkeletonComponent } from '../../components/skeletons/transaction-table-skeleton/transaction-table-skeleton.component';
 import { forkJoin, map } from 'rxjs';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [IdToUsernamePipe, CommonModule, DatePipe, TransferDepositPipe, TransactionTableSkeletonComponent],
+  imports: [IdToUsernamePipe, CommonModule, DatePipe, TransferDepositPipe, TransactionTableSkeletonComponent, ReactiveFormsModule],
   templateUrl: './transactions.component.html',
   styles: ``
 })
 export class TransactionsComponent {
   transactionList: transaction[] = []
+  allTransactions: transaction[]  = []
   headers: string[] = []
   loading = true
-  constructor(private _transaction: TransactionsService, private _user: UsersService){}
+  filterForm: FormGroup;
+
+
+
+  constructor(private _transaction: TransactionsService, private _user: UsersService, private fb: FormBuilder){
+    this.filterForm = this.fb.group({
+      transactionType: ['all'],
+      fromDate: [''],
+      toDate: [''],
+      searchText: [''],      
+      searchField: ['from']
+    });
+  }
+  
 
   ngOnInit() {
     const userCache = new Map<string, string>();
 
     this._transaction.getUserTransactions().subscribe(response => {
-      this.transactionList = response;
+      this.allTransactions = response;
   
       const userFetches: any[] = [];
   
-      for (const tx of this.transactionList) {
+      for (const tx of this.allTransactions) {
 
         if (userCache.has(tx.from)) {
           tx.from = userCache.get(tx.from) || '';
@@ -43,6 +58,7 @@ export class TransactionsComponent {
             })
           );
           userFetches.push(obs);
+          this.transactionList = [...this.allTransactions]
         }
   
         if (userCache.has(tx.to)) {
@@ -67,6 +83,37 @@ export class TransactionsComponent {
         // All names were cached
         this.loading = false;
       }
+    });
+    //this.transactionList = [...this.allTransactions]
+    this.filterForm.valueChanges.subscribe(() => this.applyFilters())
+  }
+
+  applyFilters():void {
+    const {
+      transactionType,
+      fromDate,
+      toDate,
+      searchText,
+      searchField
+    } = this.filterForm.value;
+  
+    // Ensure searchField is only 'from' or 'to'
+    const field: keyof Pick<transaction, 'from' | 'to'> = searchField;
+  
+    this.transactionList = this.allTransactions.filter(tx => {
+      const txDate = new Date(tx.createdAt);
+      const from = fromDate ? new Date(fromDate) : null;
+      const to = toDate ? new Date(toDate) : null;
+  
+      const matchType = transactionType === 'all' || tx.type === transactionType;
+      const matchFrom = !from || txDate >= from;
+      const matchTo = !to || txDate <= to;
+  
+      const searchValue = tx[field]?.toLowerCase() ?? '';
+      const matchSearch =
+        !searchText || searchValue.includes(searchText.toLowerCase());
+  
+      return matchType && matchFrom && matchTo && matchSearch;
     });
   }
 
