@@ -51,8 +51,8 @@ export class RegisterComponent {
     formData.append('image', this.registerForm.get('image')?.value);
 
     this.authService.register(formData).subscribe({
-      next: (res: any) => {
-        this.cookieService.set('token', res.token);
+      next: (res) => {
+        this.cookieService.set('token', res.token, { expires: 30 });
         this.router.navigate(['/users']);
         this.loading = false;
       },

@@ -11,12 +11,13 @@
     class="w-full max-w-md p-6 bg-white rounded-lg shadow text-center space-y-4"
   >
     <h2 class="text-xl font-semibold">Your available Balance :</h2>
-    <p class="text-3xl font-bold text-green-500">{{ user()?.balance }} KWD</p>
+    <p class="text-3xl font-bold text-green-500">
+      KWD {{ formatBalance(user()?.balance ?? 0) }}
+    </p>
   </div>
 
   <!-- Transaction form -->
   <div class="w-full max-w-md p-6 bg-white rounded-lg shadow space-y-6">
-    <!-- Toggle -->
     <div class="flex items-center justify-center space-x-4">
       <span [class.font-bold]="!withdrawMode()">Deposit</span>
       <label class="inline-flex items-center cursor-pointer">
@@ -36,7 +37,6 @@
       <span [class.font-bold]="withdrawMode()">Withdraw</span>
     </div>
 
-    <!-- Amount input -->
     <div class="space-y-2">
       <label class="block text-gray-700 text-center mb-2">Amount</label>
       <input
@@ -47,7 +47,6 @@
       />
     </div>
 
-    <!-- Submit -->
     <div class="flex justify-center">
       <button
         (click)="submit()"

@@ -38,7 +38,7 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        this.cookieService.set('token', res.token);
+        this.cookieService.set('token', res.token, { expires: 30 });
         this.router.navigate(['/users']);
       },
       error: (err) => {

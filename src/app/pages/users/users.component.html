@@ -25,15 +25,14 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
     @for (user of filteredUsers; track user._id) {
     <div
-      class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4"
+      class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 cursor-pointer"
       (click)="viewUserDetails(user._id)"
     >
       <div class="w-24 h-24 rounded-full bg-gray-100"></div>
       <div class="font-semibold text-lg">
         {{ user.username ?? "Unknown" }}
       </div>
-      <div class="text-gray-600">Balance: {{ user.balance }}</div>
-      @if(isNotCurrentUser(user)){
+
       <button
         class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
         (click)="
@@ -43,7 +42,6 @@
       >
         Transfer
       </button>
-      }
     </div>
     }
   </div>

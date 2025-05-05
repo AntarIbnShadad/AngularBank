@@ -19,6 +19,7 @@ export class HomeComponent {
   private toastService = inject(ToastService);
 
   user = signal<User | null>(null);
+  username = signal<string | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
   transactionError = signal<string | null>(null);
@@ -34,6 +35,7 @@ export class HomeComponent {
     this.usersService.getProfile().subscribe({
       next: (profile) => {
         this.user.set(profile);
+        this.username.set(profile.username || null);
         this.loading.set(false);
       },
       error: () => {
@@ -94,5 +96,18 @@ export class HomeComponent {
         this.submitting.set(false);
       },
     });
+  }
+
+  generateLink() {
+    const currentUsername = this.username();
+
+    if (!currentUsername) {
+      this.toastService.error('User not loaded yet.');
+      return;
+    }
+  }
+
+  formatBalance(balance: number): string {
+    return balance % 1 === 0 ? balance.toString() : balance.toFixed(3);
   }
 }
