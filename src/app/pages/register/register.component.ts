@@ -16,6 +16,8 @@ import { FormErrorComponent } from '../../components/form-error/form-error.compo
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  errorMessage: string = ''; // New: for error messages
+  loading: boolean = false; // New: to track loading state
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +42,9 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.invalid) return;
 
+    this.errorMessage = '';
+    this.loading = true;
+
     const formData = new FormData();
     formData.append('username', this.registerForm.get('username')?.value);
     formData.append('password', this.registerForm.get('password')?.value);
@@ -47,11 +52,15 @@ export class RegisterComponent {
 
     this.authService.register(formData).subscribe({
       next: (res) => {
-        this.cookieService.set('token', res.token);
+        this.cookieService.set('token', res.token, { expires: 30 });
         this.router.navigate(['/users']);
+        this.loading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Registration failed:', err);
+        this.errorMessage =
+          err?.error?.message || 'Registration failed. Please try again.';
+        this.loading = false;
       },
     });
   }

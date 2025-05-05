@@ -1,3 +1,4 @@
+import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -31,9 +32,7 @@ export class UsersComponent {
 
   constructor() {
     this.isLoggedIn = this.cookieService.check('token');
-    this.loadUsers();
     this.loadCurrentUser();
-
     effect(() => {
       const refreshCount = this.modalService.refreshTrigger();
       if (refreshCount > 0) {
@@ -42,27 +41,34 @@ export class UsersComponent {
     });
   }
 
+  loadCurrentUser() {
+    this.usersService.getProfile().subscribe({
+      next: (profile) => {
+        this.currentUsername.set(profile.username ?? null);
+        this.loadUsers();
+      },
+      error: () => {
+        console.error('Failed to load current user');
+        this.loadUsers();
+      },
+    });
+  }
+
   loadUsers() {
     this.usersService.getAllUsers().subscribe({
       next: (response) => {
-        this.users.set(response);
+        const currentUsername = this.currentUsername();
+        const filteredResponse = response.filter(
+          (user) => user.username !== currentUsername
+        );
+
+        this.users.set(filteredResponse);
         this.query.set('');
         this.loading.set(false);
       },
       error: () => {
         this.error.set('Failed to load users.');
         this.loading.set(false);
-      },
-    });
-  }
-
-  loadCurrentUser() {
-    this.usersService.getProfile().subscribe({
-      next: (profile) => {
-        this.currentUsername.set(profile.username ?? null);
-      },
-      error: () => {
-        console.error('Failed to load current user');
       },
     });
   }
@@ -83,10 +89,5 @@ export class UsersComponent {
     return this.users().filter((user) =>
       user.username?.toLowerCase().includes(this.query().toLowerCase())
     );
-  }
-
-  isNotCurrentUser(user: User) {
-    const currentUsername = this.currentUsername();
-    return currentUsername !== null && user.username !== currentUsername;
   }
 }
