@@ -1,94 +1,105 @@
-<body
-  class="min-h-screen flex items-center justify-center bg-[#D1FFD7] overflow-hidden px-10 pb-10"
+<div
+  class="flex justify-center items-center min-h-screen gap-16 p-8 bg-gray-100 dark:bg-gray-900 animate-fade-in"
 >
-  <!-- Pattern Background -->
-  <div
-    class="absolute inset-0 z-0"
-    style="
-      background-color: #d1ffd7;
-      background-image: radial-gradient(#a6d3a0 1px, transparent 1px),
-        radial-gradient(#b3ffb3 1px, transparent 1px);
-      background-size: 20px 20px;
-      background-position: 0 0, 10px 10px;
-    "
-  >
-    <div
-      class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/0"
-    ></div>
+  <!-- Left image section -->
+  <div class="w-full max-w-[450px]">
+    <img src="assets/images/l1.png" alt="Bank illustration" class="w-full" />
   </div>
 
-  <!-- Floating Card -->
+  <!-- Right register form section -->
   <div
-    class="relative z-10 max-w-xl w-full bg-white rounded-3xl shadow-2xl border border-[#A6D3A0] p-10"
-    style="
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1),
-        -5px 0 15px rgba(0, 0, 0, 0.05), 5px 0 15px rgba(0, 0, 0, 0.05);
-    "
+    class="w-full max-w-[400px] flex flex-col bg-white dark:bg-gray-800 p-6 rounded-lg shadow space-y-6"
   >
-    <div class="text-2xl font-bold text-[#808782] mb-4">💳 FullStack Bank</div>
-    <h2 class="text-3xl font-semibold text-[#656565] mb-2">
-      Create your account
+    <h2
+      class="text-2xl font-bold text-center text-green-600 dark:text-green-400"
+    >
+      Create an Account
     </h2>
-    <p class="text-sm text-[#808782] mb-6">
-      Join us to manage your digital finances securely.
-    </p>
-
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-[#656565]">Username</label>
-        <input
-          type="text"
-          formControlName="username"
-          placeholder="Enter username"
-          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A6D3A0]"
-        />
-        <app-form-error
-          [control]="registerForm.get('username')"
-          fieldNaMe="Username"
-        ></app-form-error>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-[#656565]">Password</label>
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="Enter password"
-          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A6D3A0]"
-        />
-        <app-form-error
-          [control]="registerForm.get('password')"
-          fieldNaMe="Password"
-        ></app-form-error>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-[#656565]"
-          >Profile Image (URL)</label
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      enctype="multipart/form-data"
+      class="flex flex-col gap-4"
+    >
+      <!-- Username -->
+      <div class="space-y-2">
+        <label for="username" class="block text-gray-700 dark:text-gray-200"
+          >Username</label
         >
         <input
-          type="file"
-          formControlName="image"
-          placeholder="Image link"
-          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A6D3A0]"
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="Username"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
         />
+        <!-- Form error -->
+        <app-form-error
+          [control]="registerForm.get('username')"
+          fieldName="Username"
+        ></app-form-error>
       </div>
 
+      <!-- Password -->
+      <div class="space-y-2">
+        <label for="password" class="block text-gray-700 dark:text-gray-200"
+          >Password</label
+        >
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
+        <!-- Form error -->
+        <app-form-error
+          [control]="registerForm.get('password')"
+          fieldName="Password"
+        ></app-form-error>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="space-y-2">
+        <label for="image" class="block text-gray-700 dark:text-gray-200"
+          >Profile Image</label
+        >
+        <input
+          id="image"
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
+        <!-- Form error -->
+        <app-form-error
+          [control]="registerForm.get('image')"
+          fieldName="Image"
+        ></app-form-error>
+      </div>
+
+      <!-- Submit -->
       <button
         type="submit"
-        class="bg-[#A6D3A0] hover:bg-[#B3FFB3] text-white font-semibold py-2 rounded-md w-full transition duration-200"
+        [disabled]="loading || registerForm.invalid"
+        class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition disabled:opacity-50"
       >
         Register
       </button>
 
-      <div class="text-xs text-[#656565] mt-4">
-        Already have an account?
-        <a
-          routerLink="/login"
-          class="text-[#808782] font-medium hover:underline"
-          >Log in</a
-        >
-      </div>
+      <!-- Error message -->
+      <p *ngIf="errorMessage" class="text-red-500 text-center mt-4">
+        {{ errorMessage }}
+      </p>
     </form>
+
+    <p class="text-center text-sm text-gray-600 dark:text-gray-300">
+      Already have an account?
+      <a
+        routerLink="/login"
+        class="text-green-600 hover:underline dark:text-green-400"
+        >Login here</a
+      >
+    </p>
   </div>
-</body>
+</div>
