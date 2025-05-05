@@ -26,8 +26,6 @@ export class HomeComponent {
   amount = signal<number | null>(null);
   withdrawMode = signal(false);
   submitting = signal(false);
-  depositAmount = 0;
-  depositLink = '';
 
   constructor() {
     this.fetchProfile();
@@ -100,17 +98,6 @@ export class HomeComponent {
     });
   }
 
-  copyLink() {
-    if (!this.depositLink) {
-      this.toastService.error('No link to copy.');
-      return;
-    }
-
-    navigator.clipboard.writeText(this.depositLink).then(() => {
-      this.toastService.success('Link copied to clipboard!');
-    });
-  }
-
   generateLink() {
     const currentUsername = this.username();
 
@@ -118,9 +105,6 @@ export class HomeComponent {
       this.toastService.error('User not loaded yet.');
       return;
     }
-
-    this.depositLink = `https://react-bank-project.eapi.joincoded.com/mini-project/api/deposit?account=${currentUsername}&amount=${this.depositAmount}`;
-    this.copyLink();
   }
 
   formatBalance(balance: number): string {

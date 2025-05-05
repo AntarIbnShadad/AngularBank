@@ -47,7 +47,7 @@ export class RegisterComponent {
 
     this.authService.register(formData).subscribe({
       next: (res) => {
-        this.cookieService.set('token', res.token);
+        this.cookieService.set('token', res.token, { expires: 30 });
         this.router.navigate(['/users']);
       },
       error: (err) => {
