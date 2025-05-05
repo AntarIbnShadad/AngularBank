@@ -1,5 +1,23 @@
-<div>
-@(item of Text; track item ){
-    <p class="text-[#808782] text-xl animate-fade-in-out">{{item}}</p>
-}
-</div>
+<div class="fixed bottom-0 w-full bg-zinc-900 text-white mt-5 overflow-hidden z-50">
+    <!-- Double the content to close the loop visually -->
+    <div class="whitespace-nowrap animate-marquee inline-block">
+      @for (stock of stocks; track stock.symbol) {
+        <span class="mx-6 font-medium">
+          <span [ngClass]="isUp(stock.change) ? 'text-green-500' : 'text-red-500'">
+            {{ stock.symbol }}: {{ stock.price | number:'1.2-2' }}
+            ({{ stock.change >= 0 ? '+' : '' }}{{ stock.change | number:'1.2-2' }})
+          </span>
+        </span>
+      }
+  
+      <!-- Repeat again to remove end gap -->
+      @for (stock of stocks; track stock.symbol + '-clone') {
+        <span class="mx-6 font-medium">
+          <span [ngClass]="isUp(stock.change) ? 'text-green-500' : 'text-red-500'">
+            {{ stock.symbol }}: {{ stock.price | number:'1.2-2' }}
+            ({{ stock.change >= 0 ? '+' : '' }}{{ stock.change | number:'1.2-2' }})
+          </span>
+        </span>
+      }
+    </div>
+  </div>
