@@ -5,11 +5,12 @@ import { filter } from 'rxjs';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { ChyronComponent } from './components/chyron/chyron.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ToastComponent, NavBarComponent, ModalComponent],
+  imports: [RouterOutlet, ToastComponent, NavBarComponent, ModalComponent,ChyronComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

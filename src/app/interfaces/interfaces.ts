@@ -48,3 +48,15 @@ export interface transaction extends base{
   createdAt: Date
   updatedAt: Date
 }
+
+export interface StockItem {
+  symbol: string;
+  price: number;
+  change: number; 
+}
+
+export interface CurrencyItem {
+  symbol: string;   
+  price: number;    
+  change: number;   
+}
