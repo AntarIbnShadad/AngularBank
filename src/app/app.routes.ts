@@ -8,6 +8,7 @@ import { guestGuard } from './guards/guest.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ConfirmTransferComponent } from './pages/confirm-transfer/confirm-transfer.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,11 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'confirm-transfer/:from/:amount',
+    component: ConfirmTransferComponent,
     canActivate: [authGuard],
   },
 
