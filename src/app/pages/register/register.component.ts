@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { FormErrorComponent } from '../../components/form-error/form-error.component';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -16,13 +17,13 @@ import { FormErrorComponent } from '../../components/form-error/form-error.compo
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  errorMessage: string = ''; // New: for error messages
-  loading: boolean = false; // New: to track loading state
+  loading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private cookieService: CookieService,
+    private toastService: ToastService,
     private router: Router
   ) {
     this.registerForm = this.fb.group({
@@ -41,8 +42,6 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.invalid) return;
-
-    this.errorMessage = '';
     this.loading = true;
 
     const formData = new FormData();
@@ -57,9 +56,7 @@ export class RegisterComponent {
         this.loading = false;
       },
       error: (err: any) => {
-        console.error('Registration failed:', err);
-        this.errorMessage =
-          err?.error?.message || 'Registration failed. Please try again.';
+        this.toastService.error('Registration failed. Please try again.');
         this.loading = false;
       },
     });

@@ -1,7 +1,5 @@
 @if (loading()) {
 <app-home-skeleton></app-home-skeleton>
-} @else if (error()) {
-<p class="text-red-500">{{ error() }}</p>
 } @else if (user()) {
 <div
   class="min-h-[calc(100vh-80px)] p-10 flex flex-col justify-center items-center space-y-10 animate-fade-in"
@@ -60,6 +58,6 @@
 
   <div>
     <app-transfer-link-generator></app-transfer-link-generator>
-    </div>
+  </div>
 </div>
 }

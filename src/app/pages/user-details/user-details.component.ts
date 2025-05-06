@@ -5,6 +5,7 @@ import { User } from '../../interfaces/interfaces';
 import { UsersService } from '../../services/users/users.service';
 import { UserDetailsSkeletonComponent } from '../../components/skeletons/user-details-skeleton/user-details-skeleton.component';
 import { ModalService } from '../../services/modal/modal.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-user-details',
@@ -20,6 +21,7 @@ export class UserDetailsComponent {
   private router = inject(Router);
   private usersService = inject(UsersService);
   private modalService = inject(ModalService);
+  private toastService = inject(ToastService);
 
   constructor() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -39,7 +41,7 @@ export class UserDetailsComponent {
   fetchUser(id: string) {
     this.usersService.getUser(id).subscribe({
       next: (res) => this.user.set(res),
-      error: (err) => console.error('Failed to fetch user:', err),
+      error: (err) => this.toastService.error('Failed to fetch user: ' + err),
     });
   }
 

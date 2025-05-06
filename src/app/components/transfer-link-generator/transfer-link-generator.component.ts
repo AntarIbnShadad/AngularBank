@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../services/users/users.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-transfer-link-generator',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './transfer-link-generator.component.html',
-  styles: ``
+  styles: ``,
 })
-
 export class TransferLinkGeneratorComponent {
   amount: number | null = null;
   recipientUsername = '';
@@ -18,26 +18,30 @@ export class TransferLinkGeneratorComponent {
   copied = false;
   senderUsername: string = '';
   loading = true;
-  error = '';
 
-  constructor(private userService: UsersService) {}
+  private userService = inject(UsersService);
+  private toastService = inject(ToastService);
 
-  ngOnInit() {
+  constructor() {
+    this.getProfile();
+  }
+
+  getProfile() {
     this.userService.getProfile().subscribe({
       next: (user) => {
         this.senderUsername = user.username || '';
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'You must be logged in to generate a link.';
+        this.toastService.error('You must be logged in to generate a link.');
         this.loading = false;
       },
     });
   }
 
   generateLink() {
-    if (this.loading || this.error || !this.senderUsername) {
-      alert('You must be logged in to generate a link.');
+    if (this.loading || !this.senderUsername) {
+      this.toastService.error('You must be logged in to generate a link.');
       return;
     }
 
@@ -48,6 +52,7 @@ export class TransferLinkGeneratorComponent {
   }
 
   copyToClipboard() {
+    this.toastService.success('Link copied');
     navigator.clipboard.writeText(this.generatedLink).then(() => {
       this.copied = true;
       setTimeout(() => (this.copied = false), 2000);

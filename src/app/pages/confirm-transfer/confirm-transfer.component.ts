@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../../services/toast/toast.service';
 import { TransactionsService } from '../../services/transactions/transactions.service';
 import { UsersService } from '../../services/users/users.service';
 
@@ -8,40 +9,43 @@ import { UsersService } from '../../services/users/users.service';
   standalone: true,
   imports: [],
   templateUrl: './confirm-transfer.component.html',
-  styles: ``
+  styles: ``,
 })
 export class ConfirmTransferComponent {
-  _id = ''
+  _id = '';
   senderUsername = '';
   amount = 0;
   intendedRecipient = '';
   currentUsername: string | undefined = '';
-  error = '';
   loading = false;
 
   constructor(
     private route: ActivatedRoute,
     private txService: TransactionsService,
     private router: Router,
-    private userService: UsersService // you must implement this
+    private userService: UsersService,
+    private toastService: ToastService
   ) {
     const { from, amount } = this.route.snapshot.params;
     this.senderUsername = from;
     this.amount = parseFloat(amount);
-    this.intendedRecipient = this.route.snapshot.queryParamMap.get('recipient') || '';
+    this.intendedRecipient =
+      this.route.snapshot.queryParamMap.get('recipient') || '';
   }
 
   ngOnInit() {
     this.userService.getProfile().subscribe({
       next: (user) => {
         this.currentUsername = user.username;
-  
+
         if (this.currentUsername !== this.intendedRecipient) {
-          this.error = 'You are not authorized to accept this transfer request.';
+          this.toastService.error(
+            'You are not authorized to accept this transfer request.'
+          );
         }
       },
       error: () => {
-        this.error = 'Could not verify user.';
+        this.toastService.error('Could not verify user.');
       },
     });
   }
@@ -53,7 +57,7 @@ export class ConfirmTransferComponent {
     this.txService.transfer(this.senderUsername, this.amount).subscribe({
       next: () => this.router.navigate(['/users']),
       error: (err) => {
-        this.error = err.error?.message || 'Transfer failed';
+        this.toastService.error(err.error?.message || 'Transfer failed');
         this.loading = false;
       },
     });
@@ -62,5 +66,4 @@ export class ConfirmTransferComponent {
   cancel() {
     this.router.navigate(['/users']);
   }
-
 }

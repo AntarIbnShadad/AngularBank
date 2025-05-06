@@ -1,3 +1,4 @@
+import { ToastService } from './../../services/toast/toast.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
@@ -27,13 +28,15 @@ export class LoginComponent {
     private authService: AuthenticationService,
     private cookieService: CookieService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastService
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
-    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/users';
+    this.returnUrl =
+      this.route.snapshot.queryParamMap.get('returnUrl') || '/users';
   }
 
   onSubmit() {
@@ -45,7 +48,7 @@ export class LoginComponent {
         this.router.navigateByUrl(this.returnUrl);
       },
       error: (err) => {
-        console.error('Login failed, please try again.', err);
+        this.toastService.error('Login failed, please try again.' + err);
       },
     });
   }

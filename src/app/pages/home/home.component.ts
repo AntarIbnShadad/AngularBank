@@ -11,7 +11,12 @@ import { TransferLinkGeneratorComponent } from '../../components/transfer-link-g
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, HomeSkeletonComponent, TransferLinkGeneratorComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HomeSkeletonComponent,
+    TransferLinkGeneratorComponent,
+  ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
@@ -22,7 +27,6 @@ export class HomeComponent {
   user = signal<User | null>(null);
   username = signal<string | null>(null);
   loading = signal(true);
-  error = signal<string | null>(null);
   transactionError = signal<string | null>(null);
   amount = signal<number | null>(null);
   withdrawMode = signal(false);
@@ -40,7 +44,7 @@ export class HomeComponent {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('Failed to load profile data');
+        this.toastService.error('Failed to load profile data');
         this.loading.set(false);
       },
     });
