@@ -7,6 +7,19 @@ import { catchError, Observable, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class UsersService extends BaseService {
+  // ✅ Update profile
+  updateProfile(formData: FormData): Observable<User> {
+    return this.put<User, FormData>(
+      this.baseUrl + 'auth/profile',
+      formData
+    ).pipe(
+      catchError((error) => {
+        console.error('Error updating profile:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
   getAllUsers(): Observable<User[]> {
     return this.get<User[]>(this.baseUrl + 'auth/users').pipe(
       catchError((error) => {
@@ -19,7 +32,7 @@ export class UsersService extends BaseService {
   getUser(id: string): Observable<User> {
     return this.get<User>(this.baseUrl + `auth/user/${id}`).pipe(
       catchError((error) => {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching user:', error);
         return throwError(() => error);
       })
     );
@@ -28,7 +41,7 @@ export class UsersService extends BaseService {
   getProfile(): Observable<User> {
     return this.get<User>(this.baseUrl + `auth/me`).pipe(
       catchError((error) => {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching profile:', error);
         return throwError(() => error);
       })
     );
