@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base/base.service';
-import { transaction } from '../../interfaces/interfaces';
+import { transaction, User } from '../../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransactionsService extends BaseService {
+
   deposit(amount: number) {
     return this.put<{ success: boolean; balance: number }, { amount: number }>(
       this.baseUrl + 'transactions/deposit',
@@ -31,6 +32,7 @@ export class TransactionsService extends BaseService {
       this.baseUrl+'transactions/my'
     )
   }
+
 
 }
 

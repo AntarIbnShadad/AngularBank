@@ -7,7 +7,8 @@ import { catchError, Observable, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class UsersService extends BaseService {
-  // ✅ Update profile
+
+
   updateProfile(formData: FormData): Observable<User> {
     return this.put<User, FormData>(
       this.baseUrl + 'auth/profile',
@@ -46,4 +47,5 @@ export class UsersService extends BaseService {
       })
     );
   }
+  
 }

@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { TransactionsService } from '../../services/transactions/transactions.service';
-import { transaction } from '../../interfaces/interfaces';
+import { transaction, User } from '../../interfaces/interfaces';
 import { UsersService } from '../../services/users/users.service';
 import { IdToUsernamePipe } from '../../pipes/id-to-username.pipe';
 import { DatePipe } from '@angular/common';
 import { TransferDepositPipe } from '../../pipes/transfer-deposit.pipe';
 import { CommonModule } from '@angular/common';
 import { TransactionTableSkeletonComponent } from '../../components/skeletons/transaction-table-skeleton/transaction-table-skeleton.component';
-import { forkJoin, map } from 'rxjs';
+import { forkJoin, lastValueFrom, map } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ToastService } from '../../services/toast/toast.service';
+import { resolve } from 'path';
 
 @Component({
   selector: 'app-transactions',
@@ -23,10 +25,10 @@ export class TransactionsComponent {
   headers: string[] = []
   loading = true
   filterForm: FormGroup;
+  userList: User[] = [];
 
 
-
-  constructor(private _transaction: TransactionsService, private _user: UsersService, private fb: FormBuilder){
+  constructor(private _transaction: TransactionsService, private _user: UsersService, private fb: FormBuilder, private toastService: ToastService){
     this.filterForm = this.fb.group({
       transactionType: ['all'],
       fromDate: [''],
@@ -34,56 +36,43 @@ export class TransactionsComponent {
       searchText: [''],      
       searchField: ['from']
     });
+
   }
   
 
   ngOnInit() {
+
     const userCache = new Map<string, string>();
 
     this._transaction.getUserTransactions().subscribe(response => {
       this.allTransactions = response;
-  
-      const userFetches: any[] = [];
-  
-      for (const tx of this.allTransactions) {
-
-        if (userCache.has(tx.from)) {
-          tx.from = userCache.get(tx.from) || '';
-        } else {
-          const obs = this._user.getUser(tx.from).pipe(
-            map(user => {
-              const username = user?.username || '';
-              userCache.set(tx.from, username);
-              tx.from = username;
-            })
-          );
-          userFetches.push(obs);
-          this.transactionList = [...this.allTransactions]
+    
+      this._user.getAllUsers().subscribe(users => {
+        this.userList = users;
+    
+        // Build a user lookup map from user ID to username
+        const userIdToUsername = new Map<string, string>();
+        for (const user of users) {
+          if (user?._id && user?.username) {
+            userIdToUsername.set(user._id, user.username);
+          }
         }
-  
-        if (userCache.has(tx.to)) {
-          tx.to = userCache.get(tx.to) || '';
-        } else {
-          const obs = this._user.getUser(tx.to).pipe(
-            map(user => {
-              const username = user?.username || '';
-              userCache.set(tx.to, username);
-              tx.to = username;
-            })
-          );
-          userFetches.push(obs);
+    
+        for (const tx of this.allTransactions) {
+          if (userIdToUsername.has(tx.from)) {
+            tx.from = userIdToUsername.get(tx.from)!;
+          }
+    
+          if (userIdToUsername.has(tx.to)) {
+            tx.to = userIdToUsername.get(tx.to)!;
+          }
         }
-      }
-  
-      if (userFetches.length > 0) {
-        forkJoin(userFetches).subscribe(() => {
-          this.loading = false;
-        });
-      } else {
-        // All names were cached
+    
+        this.transactionList = [...this.allTransactions];
         this.loading = false;
-      }
+      });
     });
+    
     //this.transactionList = [...this.allTransactions]
     this.filterForm.valueChanges.subscribe(() => this.applyFilters())
   }
@@ -116,7 +105,6 @@ export class TransactionsComponent {
       return matchType && matchFrom && matchTo && matchSearch;
     });
   }
-
   }
    
   
