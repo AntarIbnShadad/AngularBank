@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { TransactionTableSkeletonComponent } from '../../components/skeletons/transaction-table-skeleton/transaction-table-skeleton.component';
 import { forkJoin, map } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TransactionSignPipe } from '../../pipes/transaction-sign.pipe';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [IdToUsernamePipe, CommonModule, DatePipe, TransferDepositPipe, TransactionTableSkeletonComponent, ReactiveFormsModule],
+  imports: [IdToUsernamePipe, CommonModule, DatePipe, TransferDepositPipe, TransactionTableSkeletonComponent, ReactiveFormsModule,TransactionSignPipe],
   templateUrl: './transactions.component.html',
   styles: ``
 })
@@ -23,7 +24,7 @@ export class TransactionsComponent {
   headers: string[] = []
   loading = true
   filterForm: FormGroup;
-
+  currentUser = ''
 
 
   constructor(private _transaction: TransactionsService, private _user: UsersService, private fb: FormBuilder){
@@ -39,6 +40,8 @@ export class TransactionsComponent {
 
   ngOnInit() {
     const userCache = new Map<string, string>();
+    this._user.getProfile().subscribe(profile => {
+      this.currentUser = profile.username || '' })
 
     this._transaction.getUserTransactions().subscribe(response => {
       this.allTransactions = response;

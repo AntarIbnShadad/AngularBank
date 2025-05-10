@@ -1,65 +1,96 @@
 @if (loading()) {
-<app-home-skeleton></app-home-skeleton>
+  <app-home-skeleton></app-home-skeleton>
 } @else if (error()) {
-<p class="text-red-500">{{ error() }}</p>
+  <p class="text-red-500">{{ error() }}</p>
 } @else if (user()) {
-<div
-  class="min-h-[calc(100vh-80px)] p-10 flex flex-col justify-center items-center space-y-10 animate-fade-in"
->
-  <!-- Balance card -->
-  <div
-    class="w-full max-w-md p-6 bg-white rounded-lg shadow text-center space-y-4"
-  >
-    <h2 class="text-xl font-semibold">Your available Balance :</h2>
-    <p class="text-3xl font-bold text-green-500">
-      KWD {{ formatBalance(user()?.balance ?? 0) }}
-    </p>
-  </div>
+  <div class="min-h-[calc(100vh-80px)] p-6 sm:p-10 flex flex-col justify-center items-center space-y-10 animate-fade-in">
 
-  <!-- Transaction form -->
-  <div class="w-full max-w-md p-6 bg-white rounded-lg shadow space-y-6">
-    <div class="flex items-center justify-center space-x-4">
-      <span [class.font-bold]="!withdrawMode()">Deposit</span>
-      <label class="inline-flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          [checked]="withdrawMode()"
-          (change)="toggleMode()"
-          class="sr-only"
-        />
-        <div class="w-11 h-6 bg-gray-200 rounded-full relative">
-          <div
-            class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"
-            [ngClass]="withdrawMode() ? 'translate-x-5' : ''"
-          ></div>
+    <!-- Visual Bank Card -->
+    <div class="w-full max-w-md aspect-[16/9] bg-gradient-to-tr from-green-700 to-emerald-400 text-white rounded-xl p-6 shadow-xl relative overflow-hidden font-mono">
+      <!-- Chip -->
+      <div class="w-12 h-8 bg-yellow-300 rounded-sm mb-6 shadow-inner"></div>
+
+      <!-- Card Number -->
+      <div class="text-2xl tracking-widest font-semibold mb-6">
+        {{ maskedCardNumber }}
+      </div>
+
+      <!-- Card Details -->
+      <div class="flex justify-between text-sm">
+        <div>
+          <div class="uppercase text-gray-200 text-xs mb-1">Card Holder</div>
+          <div class="text-white tracking-wide">{{ user()?.username || 'Username' }}</div>
         </div>
-      </label>
-      <span [class.font-bold]="withdrawMode()">Withdraw</span>
+        <div>
+          <div class="uppercase text-gray-200 text-xs mb-1">Expires</div>
+          <div>12/26</div>
+        </div>
+      </div>
     </div>
 
-    <div class="space-y-2">
-      <label class="block text-gray-700 text-center mb-2">Amount</label>
-      <input
-        type="number"
-        [(ngModel)]="amountValue"
-        placeholder="Amount"
-        class="border rounded px-4 py-2 w-full"
-      />
+    <!-- Balance Display (below the card) -->
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow text-center space-y-4">
+      <h2 class="text-xl font-semibold">Your Available Balance:</h2>
+      <p class="text-3xl font-bold text-green-500">
+        KWD {{ formatBalance(user()?.balance ?? 0) }}
+      </p>
     </div>
 
-    <div class="flex justify-center">
+    <!-- Transaction Form -->
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow space-y-6">
+      <div class="flex items-center justify-center space-x-4">
+        <span [class.font-bold]="!withdrawMode()">Deposit</span>
+        <label class="inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            [checked]="withdrawMode()"
+            (change)="toggleMode()"
+            class="sr-only"
+          />
+          <div class="w-11 h-6 bg-gray-200 rounded-full relative">
+            <div
+              class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"
+              [ngClass]="withdrawMode() ? 'translate-x-5' : ''"
+            ></div>
+          </div>
+        </label>
+        <span [class.font-bold]="withdrawMode()">Withdraw</span>
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-gray-700 text-center mb-2">Amount</label>
+        <input
+          type="number"
+          [(ngModel)]="amountValue"
+          placeholder="Amount"
+          class="border rounded px-4 py-2 w-full"
+        />
+      </div>
+
+      <div class="flex justify-center">
+        <button
+          (click)="submit()"
+          [disabled]="submitting()"
+          class="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white px-6 py-2 rounded"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+
+    <!-- Toggle Transfer Link Section -->
+    <div class="w-full max-w-md text-center space-y-4">
       <button
-        (click)="submit()"
-        [disabled]="submitting()"
-        class="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white px-6 py-2 rounded"
+        (click)="showLink = !showLink"
+        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow"
       >
-        Submit
+        {{ showLink ? 'Hide Transfer Link' : 'Show Transfer Link' }}
       </button>
-    </div>
-  </div>
 
-  <div>
-    <app-transfer-link-generator></app-transfer-link-generator>
+      <div *ngIf="showLink" class="transition-all duration-300">
+        <app-transfer-link-generator></app-transfer-link-generator>
+      </div>
     </div>
-</div>
+
+  </div>
 }
