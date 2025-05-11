@@ -1,55 +1,54 @@
-<div class="max-w-md mx-auto p-6 bg-white shadow-lg rounded-xl">
-  <h2 class="text-xl font-bold mb-4 text-center">Generate Transfer Link</h2>
+<div class="max-w-md mx-auto p-6 bg-white shadow-lg rounded-xl space-y-4">
+  <h2 class="text-xl font-bold text-center text-green-700">Generate Transfer Link</h2>
 
-  <div class="mb-4">
-    <label class="block mb-1 text-sm font-medium text-gray-700"
-      >Recipient Username</label
-    >
+  <!-- Recipient Username -->
+  <div>
+    <label class="block mb-1 text-sm font-medium text-gray-700">Recipient Username</label>
+
     <input
       type="text"
       [(ngModel)]="recipientUsername"
       placeholder="e.g. john_doe"
-      class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
     />
   </div>
 
-  <div class="mb-4">
+  <!-- Amount -->
+  <div>
     <label class="block mb-1 text-sm font-medium text-gray-700">Amount</label>
     <input
       type="number"
       [(ngModel)]="amount"
       placeholder="e.g. 100"
-      class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
     />
   </div>
 
+  <!-- Generate Button -->
   <button
     (click)="generateLink()"
     [disabled]="!recipientUsername || !amount"
-    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+    class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-gray-400 transition"
   >
     Generate Link
   </button>
 
-  @if(generatedLink){
-  <div class="mt-4">
-    <label class="block text-sm font-medium text-gray-700 mb-1"
-      >Generated Link</label
-    >
+  <!-- Generated Link Output -->
+  <div *ngIf="generatedLink" class="mt-2">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Generated Link</label>
     <div class="flex items-center space-x-2">
       <input
         type="text"
         [value]="generatedLink"
         readonly
-        class="flex-1 px-3 py-2 border rounded-md bg-gray-50 text-sm"
+        class="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-sm"
       />
       <button
         (click)="copyToClipboard()"
         class="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 transition"
       >
-        {{ copied ? "Copied!" : "Copy" }}
+        {{ copied ? 'Copied!' : 'Copy' }}
       </button>
     </div>
   </div>
-  }
 </div>

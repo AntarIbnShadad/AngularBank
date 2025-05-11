@@ -7,17 +7,19 @@ import { TransferDepositPipe } from '../../pipes/transfer-deposit.pipe';
 import { ToastService } from '../../services/toast/toast.service';
 import { TransactionsService } from '../../services/transactions/transactions.service';
 import { UsersService } from '../../services/users/users.service';
+import { IdToUsernamePipe } from '../../pipes/id-to-username.pipe';
+import { DatePipe } from '@angular/common';
+import { TransferDepositPipe } from '../../pipes/transfer-deposit.pipe';
+import { CommonModule } from '@angular/common';
+import { TransactionTableSkeletonComponent } from '../../components/skeletons/transaction-table-skeleton/transaction-table-skeleton.component';
+import { forkJoin, map } from 'rxjs';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TransactionSignPipe } from '../../pipes/transaction-sign.pipe';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [
-    CommonModule,
-    DatePipe,
-    TransferDepositPipe,
-    TransactionTableSkeletonComponent,
-    ReactiveFormsModule,
-  ],
+  imports: [IdToUsernamePipe, CommonModule, DatePipe, TransferDepositPipe, TransactionTableSkeletonComponent, ReactiveFormsModule,TransactionSignPipe],
   templateUrl: './transactions.component.html',
   styles: ``,
 })
@@ -27,14 +29,10 @@ export class TransactionsComponent {
   headers: string[] = [];
   loading = true;
   filterForm: FormGroup;
-  userList: User[] = [];
+  currentUser = ''
 
-  constructor(
-    private _transaction: TransactionsService,
-    private _user: UsersService,
-    private fb: FormBuilder,
-    private toastService: ToastService
-  ) {
+
+  constructor(private _transaction: TransactionsService, private _user: UsersService, private fb: FormBuilder){
     this.filterForm = this.fb.group({
       transactionType: ['all'],
       fromDate: [''],
@@ -46,6 +44,8 @@ export class TransactionsComponent {
 
   ngOnInit() {
     const userCache = new Map<string, string>();
+    this._user.getProfile().subscribe(profile => {
+      this.currentUser = profile.username || '' })
 
     this._transaction.getUserTransactions().subscribe((response) => {
       this.allTransactions = response;

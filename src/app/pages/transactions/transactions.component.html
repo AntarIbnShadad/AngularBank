@@ -1,122 +1,101 @@
 @if(loading){
-<app-transaction-table-skeleton></app-transaction-table-skeleton>
-} @else{
-<form [formGroup]="filterForm" class="space-y-4">
-  <!--(ngSubmit)="onSubmit()"-->
+  <app-transaction-table-skeleton></app-transaction-table-skeleton>
+}
+@else{
+<!-- Stylized Filter Card -->
+<!-- Filter Bar Card -->
+<div class="w-full max-w-6xl mx-auto bg-white shadow-lg rounded-xl px-6 py-4 mt-6">
+  <form [formGroup]="filterForm" class="flex flex-wrap items-center justify-center gap-4">
 
-  <div class="flex items-center space-x-2 justify-center my-4">
-    <!-- Dropdown: choose field to search -->
-    <select formControlName="searchField" class="border rounded px-2 py-1">
-      <option value="from">From</option>
-      <option value="to">To</option>
-    </select>
+    <!-- Green Dropdown -->
+    <div class="flex items-center space-x-2">
+      <label class="text-sm font-medium text-gray-700">Search</label>
+      <select
+        formControlName="searchField"
+        class="bg-green-600 text-white text-sm px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 shadow cursor-pointer"
+      >
+        <option class="bg-green-100 text-black" value="from">From</option>
+        <option class="bg-green-100 text-black" value="to">To</option>
+      </select>
+    </div>
 
     <!-- Search Text Input -->
     <input
       type="text"
       formControlName="searchText"
-      placeholder="Search..."
-      class="border rounded px-3 py-2 w-60"
+      placeholder="Username or address"
+      class="w-48 sm:w-64 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
     />
-    <!--formControlName="searchText"-->
-  </div>
-  <!-- Radio Buttons -->
-  <div class="flex space-x-4 items-center justify-center mt-5">
-    <label class="flex items-center space-x-1">
-      <input
-        type="radio"
-        formControlName="transactionType"
-        value="deposit"
-        class="form-radio text-blue-600"
-      />
-      <span>Deposit</span>
-    </label>
-    <label class="flex items-center space-x-1">
-      <input
-        type="radio"
-        formControlName="transactionType"
-        value="transfer"
-        class="form-radio text-blue-600"
-      />
-      <span>Transfer</span>
-    </label>
-    <label class="flex items-center space-x-1">
-      <input
-        type="radio"
-        formControlName="transactionType"
-        value="withdraw"
-        class="form-radio text-blue-600"
-      />
-      <span>Withdraw</span>
-    </label>
-    <label class="flex items-center space-x-1">
-      <input
-        type="radio"
-        formControlName="transactionType"
-        value="all"
-        class="form-radio text-blue-600"
-      />
-      <span>All</span>
-    </label>
-  </div>
 
-  <!-- Date Pickers -->
-  <div class="flex items-center justify-center space-x-4">
-    <div class="flex flex-col">
-      <label for="fromDate" class="text-sm text-gray-700">From</label>
+    <!-- Radio Buttons (inline) -->
+    <div class="flex flex-wrap gap-4 items-center">
+      <label class="flex items-center space-x-1 text-sm">
+        <input type="radio" formControlName="transactionType" value="deposit" class="text-green-600 focus:ring-green-500">
+        <span>Deposit</span>
+      </label>
+      <label class="flex items-center space-x-1 text-sm">
+        <input type="radio" formControlName="transactionType" value="transfer" class="text-green-600 focus:ring-green-500">
+        <span>Transfer</span>
+      </label>
+      <label class="flex items-center space-x-1 text-sm">
+        <input type="radio" formControlName="transactionType" value="withdraw" class="text-green-600 focus:ring-green-500">
+        <span>Withdraw</span>
+      </label>
+      <label class="flex items-center space-x-1 text-sm">
+        <input type="radio" formControlName="transactionType" value="all" class="text-green-600 focus:ring-green-500">
+        <span>All</span>
+      </label>
+    </div>
+
+    <!-- Date Pickers -->
+    <div class="flex items-center space-x-2 text-sm">
+      <label for="fromDate" class="text-gray-700">From</label>
       <input
         type="date"
         id="fromDate"
         formControlName="fromDate"
-        class="border rounded px-3 py-2"
+        class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
       />
     </div>
-    <div class="flex flex-col">
-      <label for="toDate" class="text-sm text-gray-700">To</label>
+
+    <div class="flex items-center space-x-2 text-sm">
+      <label for="toDate" class="text-gray-700">To</label>
       <input
         type="date"
         id="toDate"
         formControlName="toDate"
-        class="border rounded px-3 py-2"
+        class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
       />
     </div>
-  </div>
-
-  <!-- Submit Button -->
-  <!--<div class="flex items-center justify-center">
-          <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-            Filter
-          </button>
-        </div>-->
-</form>
-
-<div class="flex justify-center mt-8">
-  <table class="w-[90%] md:w-4/5 lg:w-2/3 border-separate border-spacing-y-4">
-    <thead>
-      <tr class="text-left text-gray-600 text-sm">
-        <th class="px-4 py-2">Type</th>
-        <th class="px-4 py-2">Amount</th>
-        <th class="px-4 py-2">From</th>
-        <th class="px-4 py-2">To</th>
-        <th class="px-4 py-2">Created At</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (item of transactionList; track item) {
-      <tr class="bg-white shadow-md rounded-xl overflow-hidden">
-        <td
-          class="p-4 rounded-l-xl"
-          [style.color]="item.type | transferDeposit"
-        >
-          {{ item.type }}
-        </td>
-        <td class="p-4">{{ formatAmount(item.amount) }}</td>
-        <td class="p-4">{{ item.from }}</td>
-        <td class="p-4">{{ item.to }}</td>
-        <td class="p-4 rounded-r-xl">{{ item.createdAt | date }}</td>
-      </tr>
-      }
-    </tbody>
-  </table>
+  </form>
 </div>
+
+
+      
+      
+
+  <div class="flex justify-center mt-8">
+    <table class="w-[90%] md:w-4/5 lg:w-2/3 border-separate border-spacing-y-4">
+      <thead>
+        <tr class="text-left text-gray-600 text-sm">
+          <th class="px-4 py-2">Type</th>
+          <th class="px-4 py-2">Amount</th>
+          <th class="px-4 py-2">From</th>
+          <th class="px-4 py-2">To</th>
+          <th class="px-4 py-2">Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of transactionList; track item) {
+          <tr class="bg-white shadow-md rounded-xl overflow-hidden">
+            <td class="p-4 rounded-l-xl" [style.color] = "item.type | transferDeposit:currentUser:item.from:item.to">{{ item.type | uppercase }}</td>
+            <td class="p-4" [style.color] = "item.type | transferDeposit:currentUser:item.from:item.to">{{ item.amount  |  transactionSign:item.type:currentUser:item.from  }}</td>
+            <td class="p-4">{{ item.from }}</td>
+            <td class="p-4">{{ item.to }}</td>
+            <td class="p-4 rounded-r-xl">{{ item.createdAt | date}}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 }

@@ -23,8 +23,7 @@ export class ConfirmTransferComponent {
     private route: ActivatedRoute,
     private txService: TransactionsService,
     private router: Router,
-    private userService: UsersService,
-    private toastService: ToastService
+    private userService: UsersService
   ) {
     const { from, amount } = this.route.snapshot.params;
     this.senderUsername = from;
@@ -39,9 +38,8 @@ export class ConfirmTransferComponent {
         this.currentUsername = user.username;
 
         if (this.currentUsername !== this.intendedRecipient) {
-          this.toastService.error(
-            'You are not authorized to accept this transfer request.'
-          );
+          this.error =
+            'You are not authorized to accept this transfer request.';
         }
       },
       error: () => {

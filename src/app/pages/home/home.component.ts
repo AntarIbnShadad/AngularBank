@@ -31,6 +31,7 @@ export class HomeComponent {
   amount = signal<number | null>(null);
   withdrawMode = signal(false);
   submitting = signal(false);
+  showLink = false;
 
   constructor() {
     this.fetchProfile();
@@ -48,6 +49,12 @@ export class HomeComponent {
         this.loading.set(false);
       },
     });
+  }
+
+  get maskedCardNumber(): string {
+    const id = this.user()?._id || '';
+    const last4 = id.slice(-4) || '0000';
+    return `•••• •••• •••• ${last4}`;
   }
 
   get amountValue() {
