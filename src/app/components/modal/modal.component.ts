@@ -30,7 +30,7 @@ export class ModalComponent {
     if (this.isVisible()) {
       this.usersService.getProfile().subscribe({
         next: (profile) => this.currentUser.set(profile),
-        error: () => console.error('Failed to load current user.'),
+        error: () => this.toastService.error('Failed to load current user.'),
       });
     }
   });

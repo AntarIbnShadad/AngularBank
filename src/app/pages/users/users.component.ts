@@ -8,6 +8,7 @@ import { UsersService } from '../../services/users/users.service';
 import { Router } from '@angular/router';
 import { UserCardSkeletonComponent } from '../../components/skeletons/user-card-skeleton/user-card-skeleton.component';
 import { ModalService } from '../../services/modal/modal.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -18,12 +19,12 @@ import { ModalService } from '../../services/modal/modal.service';
 export class UsersComponent {
   private usersService = inject(UsersService);
   private cookieService = inject(CookieService);
+  private toastService = inject(ToastService);
   private router = inject(Router);
   private modalService = inject(ModalService);
 
   query = signal('');
   users = signal<User[]>([]);
-  error = signal<string | null>(null);
   loading = signal(true);
   isLoggedIn = !!this.cookieService.get('token');
   currentUsername = signal<string | null>(null);
@@ -48,7 +49,7 @@ export class UsersComponent {
         this.loadUsers();
       },
       error: () => {
-        console.error('Failed to load current user');
+        this.toastService.error('Failed to load current user');
         this.loadUsers();
       },
     });
@@ -67,7 +68,7 @@ export class UsersComponent {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('Failed to load users.');
+        this.toastService.error('Failed to load users');
         this.loading.set(false);
       },
     });

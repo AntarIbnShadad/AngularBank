@@ -11,11 +11,15 @@
 
   <div class="w-full max-w-md p-8 rounded-lg shadow space-y-6">
     <div class="flex justify-center">
+      @if(user()?.image){
       <img
-        [src]="user()?.image"
-        alt="Profile"
-        class="w-40 h-40 rounded-full object-cover shadow"
+        src="{{ user()?.image }}"
+        alt="user-image"
+        class="w-40 h-40 rounded-full"
       />
+      } @else {
+      <div class="w-40 h-40 rounded-full bg-gray-100"></div>
+      }
     </div>
 
     <div class="text-center">

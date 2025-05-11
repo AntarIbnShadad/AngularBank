@@ -26,13 +26,13 @@
       class="flex flex-col gap-4"
     >
       <!-- Username -->
-      <label class="flex flex-col font-medium text-sm">
+      <label class="flex flex-col font-medium text-sm text-white">
         Username
         <input
           type="text"
           formControlName="username"
           placeholder="Username"
-          class="mt-1 p-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+          class="mt-1 p-2 border border-gray-300 rounded text-sm bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
         />
         <app-form-error
           [control]="loginForm.get('username')"
@@ -41,13 +41,13 @@
       </label>
 
       <!-- Password -->
-      <label class="flex flex-col font-medium text-sm">
+      <label class="flex flex-col font-medium text-sm text-white">
         Password
         <input
           type="password"
           formControlName="password"
           placeholder="Password"
-          class="mt-1 p-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+          class="mt-1 p-2 border border-gray-300 rounded text-sm bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
         />
         <a
           class="mt-1 text-xs self-end text-[#007bff] hover:underline"

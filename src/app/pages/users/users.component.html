@@ -4,10 +4,7 @@
     (search)="setQuery($event)"
   ></app-search-bar>
 
-  @if (error()) {
-  <p class="text-red-500">{{ error() }}</p>
-
-  } @else if (loading()) {
+  @if(loading()) {
   <div
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr"
   >
@@ -28,7 +25,15 @@
       class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 cursor-pointer"
       (click)="viewUserDetails(user._id)"
     >
+      @if(user.image){
+      <img
+        src="{{ user.image }}"
+        alt="user-image"
+        class="w-24 h-24 rounded-full"
+      />
+      } @else {
       <div class="w-24 h-24 rounded-full bg-gray-100"></div>
+      }
       <div class="font-semibold text-lg">
         {{ user.username ?? "Unknown" }}
       </div>

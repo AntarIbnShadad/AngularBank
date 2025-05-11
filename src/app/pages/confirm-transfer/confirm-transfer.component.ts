@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../../services/toast/toast.service';
 import { TransactionsService } from '../../services/transactions/transactions.service';
 import { UsersService } from '../../services/users/users.service';
 
@@ -16,7 +17,6 @@ export class ConfirmTransferComponent {
   amount = 0;
   intendedRecipient = '';
   currentUsername: string | undefined = '';
-  error = '';
   loading = false;
 
   constructor(
@@ -43,7 +43,7 @@ export class ConfirmTransferComponent {
         }
       },
       error: () => {
-        this.error = 'Could not verify user.';
+        this.toastService.error('Could not verify user.');
       },
     });
   }
@@ -55,7 +55,7 @@ export class ConfirmTransferComponent {
     this.txService.transfer(this.senderUsername, this.amount).subscribe({
       next: () => this.router.navigate(['/users']),
       error: (err) => {
-        this.error = err.error?.message || 'Transfer failed';
+        this.toastService.error(err.error?.message || 'Transfer failed');
         this.loading = false;
       },
     });
