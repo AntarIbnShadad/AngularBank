@@ -8,10 +8,10 @@ import { UsersService } from '../../services/users/users.service';
   standalone: true,
   imports: [],
   templateUrl: './confirm-transfer.component.html',
-  styles: ``
+  styles: ``,
 })
 export class ConfirmTransferComponent {
-  _id = ''
+  _id = '';
   senderUsername = '';
   amount = 0;
   intendedRecipient = '';
@@ -23,21 +23,23 @@ export class ConfirmTransferComponent {
     private route: ActivatedRoute,
     private txService: TransactionsService,
     private router: Router,
-    private userService: UsersService // you must implement this
+    private userService: UsersService
   ) {
     const { from, amount } = this.route.snapshot.params;
     this.senderUsername = from;
     this.amount = parseFloat(amount);
-    this.intendedRecipient = this.route.snapshot.queryParamMap.get('recipient') || '';
+    this.intendedRecipient =
+      this.route.snapshot.queryParamMap.get('recipient') || '';
   }
 
   ngOnInit() {
     this.userService.getProfile().subscribe({
       next: (user) => {
         this.currentUsername = user.username;
-  
+
         if (this.currentUsername !== this.intendedRecipient) {
-          this.error = 'You are not authorized to accept this transfer request.';
+          this.error =
+            'You are not authorized to accept this transfer request.';
         }
       },
       error: () => {
@@ -62,5 +64,4 @@ export class ConfirmTransferComponent {
   cancel() {
     this.router.navigate(['/users']);
   }
-
 }

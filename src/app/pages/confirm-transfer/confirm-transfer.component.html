@@ -1,24 +1,30 @@
-<div class="max-w-md mx-auto mt-20 p-6 bg-white shadow-xl rounded-xl text-center">
-    <h2 class="text-xl font-semibold mb-4">Confirm Transfer</h2>
-  
-    <p class="mb-2">
-      You received a transfer request of <strong>{{ amount }}</strong> from <strong>{{ senderUsername }}</strong>.
-    </p>
-  
-    <div *ngIf="error" class="text-red-500 mb-2">{{ error }}</div>
-  
-    <button
-      (click)="accept()"
-      [disabled]="loading"
-      class="bg-green-600 text-white px-4 py-2 rounded-md mr-2"
-    >
-      Accept
-    </button>
-    <button
-      (click)="cancel()"
-      [disabled]="loading"
-      class="bg-gray-300 text-black px-4 py-2 rounded-md"
-    >
-      Cancel
-    </button>
-  </div>
+<div
+  class="max-w-md mx-auto mt-20 p-6 bg-white shadow-xl rounded-xl text-center"
+>
+  <h2 class="text-xl font-semibold mb-4">Confirm Transfer</h2>
+
+  <p class="mb-2">
+    You received a transfer request of <strong>{{ amount }}</strong> from
+    <strong>{{ senderUsername }}</strong
+    >.
+  </p>
+
+  @if(error){
+  <div class="text-red-500 mb-2">{{ error }}</div>
+  }
+
+  <button
+    (click)="accept()"
+    [disabled]="loading"
+    class="bg-green-600 text-white px-4 py-2 rounded-md mr-2"
+  >
+    Accept
+  </button>
+  <button
+    (click)="cancel()"
+    [disabled]="loading"
+    class="bg-gray-300 text-black px-4 py-2 rounded-md"
+  >
+    Cancel
+  </button>
+</div>
